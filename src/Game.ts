@@ -185,7 +185,7 @@ class Game{
       {
           if (this.player_y + y < this.filed_max_y &&
               this.player_x + x < this.filed_max_x &&
-              this.GameObject[y][x] == 1)
+              this.GameObject[y][x] === 1)
           {
             this.GameField[this.player_y + y][this.player_x + x] = 2
           }
