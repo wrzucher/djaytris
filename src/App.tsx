@@ -1,26 +1,66 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {KeyboardEvent} from 'react';
 import './App.css';
+import Game from './Game';
+import GameField from './GameField';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component<{}, { gameField: number[][] }> {
+  private Game: Game;
+  
+  constructor(props: {}) {
+    super(props);
+    this.Game = new Game();
+    this.state = {gameField: this.Game.GameField };
+    setInterval(() => {
+      this.Game.Tic();
+      this.setState({
+        gameField : this.Game.GameField,
+      })
+    }, 2000)
+
+    window.addEventListener("keydown", this.onKeyPress.bind(this));
+  }
+
+  private onKeyPress(e: globalThis.KeyboardEvent) {
+    if (e.key === "ArrowRight")
+    {
+      this.Game.MoveRight();
+      this.setState({
+        gameField : this.Game.GameField,
+      })
+    }
+
+    if (e.key === "ArrowLeft")
+    {
+      this.Game.MoveLeft();
+      this.setState({
+        gameField : this.Game.GameField,
+      })
+    }
+
+    if (e.key === "ArrowDown")
+    {
+      this.Game.MoveDown();
+      this.setState({
+        gameField : this.Game.GameField,
+      })
+    }
+
+    if (e.key === "ArrowUp")
+    {
+      this.Game.RotateLeft();
+      this.setState({
+        gameField : this.Game.GameField,
+      })
+    }
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <GameField gameField={this.state.gameField} />
+      </div>
+    );
+    }
 }
 
 export default App;
