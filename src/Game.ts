@@ -152,7 +152,7 @@ class Game{
     {
       for(let y = 0; y < 4; y++)
       {
-        if (this.GameObject[y][x] != 0 &&
+        if (this.GameObject[y][x] !== 0 &&
           this.GameField[this.player_y + y][this.player_x + x] === this.GameObject[y][x])
         {
           this.GameField[this.player_y + y][this.player_x + x] = 0
@@ -167,7 +167,7 @@ class Game{
     {
       for(let y = 0; y < 4; y++)
       {
-        if (this.GameObject[y][x] != 0 &&
+        if (this.GameObject[y][x] !== 0 &&
           this.player_y + y < this.filed_max_y &&
           this.player_x + x < this.filed_max_x)
           {
@@ -219,7 +219,7 @@ class Game{
     {
       for(let x = 0; x < this.filed_max_x; x++)
       {
-        if (this.GameField[y][x] != 2)
+        if (this.GameField[y][x] !== 2)
         {
           break;
         }

@@ -1,4 +1,4 @@
-import React, {KeyboardEvent} from 'react';
+import React from 'react';
 import './App.css';
 import Game from './Game';
 import GameField from './GameField';
