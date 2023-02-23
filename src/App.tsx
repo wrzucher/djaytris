@@ -8,7 +8,7 @@ class App extends React.Component<{}, { gameField: number[][] }> {
   
   constructor(props: {}) {
     super(props);
-    this.Game = new Game();
+    this.Game = new Game(20, 10);
     this.state = {gameField: this.Game.GameField };
     setInterval(() => {
       this.Game.Tic();

@@ -14,15 +14,18 @@ class Game{
   private nextObject: GameBlockType = GameBlockType.Square;
   private GameObject: number[][] = new Array(4).fill(0).map(() => new Array(4).fill(0));
   
-  private filed_max_x: number = 10;
-  private filed_max_y: number = 20;
-  public GameField: number[][] = new Array(this.filed_max_y).fill(0).map(() => new Array(this.filed_max_x).fill(0));
+  private filed_max_x: number;
+  private filed_max_y: number;
+  public GameField: number[][];
 
   private player_x: number = 5;
   private player_y: number = 0;
 
-  constructor()
+  constructor(filed_max_y: number, filed_max_x: number)
   {
+    this.filed_max_x = filed_max_x;
+    this.filed_max_y = filed_max_y;
+    this.GameField = new Array(this.filed_max_y).fill(0).map(() => new Array(this.filed_max_x).fill(0));
     var random = Math.floor(Math.random() * (5 + 1));
     this.GameObject = this.GetGameBlock(random)
   }
