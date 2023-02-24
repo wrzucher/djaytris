@@ -4,13 +4,13 @@ import Game from './Game';
 import GameField from './GameField';
 
 class App extends React.Component<{}, { gameField: number[][] }> {
-  private Game: Game;
+  private readonly game: Game;
   private gameTimer?: NodeJS.Timer;
   
   constructor(props: {}) {
     super(props);
-    this.Game = new Game(20, 10);
-    this.state = {gameField: this.Game.GameField };    
+    this.game = new Game(20, 10);
+    this.state = {gameField: this.game.GameField };    
 
     window.addEventListener("keydown", this.onKeyPress.bind(this));
   }
@@ -19,44 +19,40 @@ class App extends React.Component<{}, { gameField: number[][] }> {
     if (!this.gameTimer)
     {
       this.gameTimer = setInterval(() => {
-        this.Game.Tic();
+        this.game.Tic();
         this.setState({
-          gameField : this.Game.GameField,
+          gameField : this.game.GameField,
         })
       }, 1000)
     }
   }
 
   private onKeyPress(e: globalThis.KeyboardEvent) {
-    if (e.key === "ArrowRight")
-    {
-      this.Game.MoveRight();
+    if (e.key === "ArrowRight") {
+      this.game.MoveRight();
       this.setState({
-        gameField : this.Game.GameField,
+        gameField : this.game.GameField,
       })
     }
 
-    if (e.key === "ArrowLeft")
-    {
-      this.Game.MoveLeft();
+    if (e.key === "ArrowLeft") {
+      this.game.MoveLeft();
       this.setState({
-        gameField : this.Game.GameField,
+        gameField : this.game.GameField,
       })
     }
 
-    if (e.key === "ArrowDown")
-    {
-      this.Game.MoveDown();
+    if (e.key === "ArrowDown") {
+      this.game.MoveDown();
       this.setState({
-        gameField : this.Game.GameField,
+        gameField : this.game.GameField,
       })
     }
 
-    if (e.key === "ArrowUp")
-    {
-      this.Game.RotateLeft();
+    if (e.key === "ArrowUp") {
+      this.game.RotateLeft();
       this.setState({
-        gameField : this.Game.GameField,
+        gameField : this.game.GameField,
       })
     }
   }
@@ -67,7 +63,7 @@ class App extends React.Component<{}, { gameField: number[][] }> {
         <GameField gameField={this.state.gameField} />
       </div>
     );
-    }
+  }
 }
 
 export default App;
