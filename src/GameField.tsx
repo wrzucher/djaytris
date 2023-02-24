@@ -10,8 +10,7 @@ function GameField(props: { gameField:number[][]}) {
             <tr>
               {items.map((subItem, index) => {
                 let cellType = "";
-                switch (subItem)
-                {
+                switch (subItem) {
                   case 1: cellType = "bg-red";
                   break;
                   case 2: cellType = "bg-black";
