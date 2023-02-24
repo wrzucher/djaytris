@@ -5,19 +5,26 @@ import GameField from './GameField';
 
 class App extends React.Component<{}, { gameField: number[][] }> {
   private Game: Game;
+  private gameTimer?: NodeJS.Timer;
   
   constructor(props: {}) {
     super(props);
     this.Game = new Game(20, 10);
-    this.state = {gameField: this.Game.GameField };
-    setInterval(() => {
-      this.Game.Tic();
-      this.setState({
-        gameField : this.Game.GameField,
-      })
-    }, 2000)
+    this.state = {gameField: this.Game.GameField };    
 
     window.addEventListener("keydown", this.onKeyPress.bind(this));
+  }
+
+  componentDidMount() {
+    if (!this.gameTimer)
+    {
+      this.gameTimer = setInterval(() => {
+        this.Game.Tic();
+        this.setState({
+          gameField : this.Game.GameField,
+        })
+      }, 1000)
+    }
   }
 
   private onKeyPress(e: globalThis.KeyboardEvent) {
