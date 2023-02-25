@@ -6,9 +6,10 @@ class TetrisGame extends React.Component<{}, { gameField: number[][] }> {
   private readonly game: Game;
   private gameTimer?: NodeJS.Timer;
   
+  
   constructor(props: {}) {
     super(props);
-    this.game = new Game(20, 10);
+    this.game = new Game(50, 50);
     this.state = {gameField: this.game.GameField };    
 
     window.addEventListener("keydown", this.onKeyPress.bind(this));

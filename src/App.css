@@ -26,6 +26,31 @@ table, th, td {
   background-color: black;
 }
 
+.tanksCanva {
+  width: 50%;
+  height: 50%;
+}
+
+.tanksCanva2   {
+  width: 50%;
+  height: 100%;
+}
+
+.canvaField {
+  position: relative;
+}
+
+.canvaField1 {
+  z-index: 0;
+}
+
+.canvaField2 {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  top: 0;
+}
+
 table {
   margin: 10px auto;
   width: 20%;
