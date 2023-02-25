@@ -1,69 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import Game from './Game';
-import GameField from './GameField';
+import TetrisGame from './TetrisGame';
+import TanksGamePage from './TanksGamePage';
 
-class App extends React.Component<{}, { gameField: number[][] }> {
-  private readonly game: Game;
-  private gameTimer?: NodeJS.Timer;
-  
-  constructor(props: {}) {
-    super(props);
-    this.game = new Game(20, 10);
-    this.state = {gameField: this.game.GameField };    
+function App() {
+  const [state, setState] = useState('start')
 
-    window.addEventListener("keydown", this.onKeyPress.bind(this));
-  }
+  return (
+      <div>
+        {state === 'tetrisGame' && ( <TetrisGame /> )}
+        {state === 'tanksGame' && ( <TanksGamePage /> )}
+        {state === 'start' && ( <button onClick={() => setState('tetrisGame')}>Play tetris!</button> )}
+        {state === 'start' && ( <button onClick={() => setState('tanksGame')}>Play tanks!</button> )}
 
-  componentDidMount() {
-    if (!this.gameTimer)
-    {
-      this.gameTimer = setInterval(() => {
-        this.game.Tic();
-        this.setState({
-          gameField : this.game.GameField,
-        })
-      }, 1000)
-    }
-  }
-
-  private onKeyPress(e: globalThis.KeyboardEvent) {
-    if (e.key === "ArrowRight") {
-      this.game.MoveRight();
-      this.setState({
-        gameField : this.game.GameField,
-      })
-    }
-
-    if (e.key === "ArrowLeft") {
-      this.game.MoveLeft();
-      this.setState({
-        gameField : this.game.GameField,
-      })
-    }
-
-    if (e.key === "ArrowDown") {
-      this.game.MoveDown();
-      this.setState({
-        gameField : this.game.GameField,
-      })
-    }
-
-    if (e.key === "ArrowUp") {
-      this.game.RotateLeft();
-      this.setState({
-        gameField : this.game.GameField,
-      })
-    }
-  }
-
-  render() {
-    return (
-      <div className="App">
-        <GameField gameField={this.state.gameField} />
       </div>
-    );
-  }
+  );
 }
 
 export default App;
