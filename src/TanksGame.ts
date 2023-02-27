@@ -1,69 +1,60 @@
-import GameBlockType from './TanksGameEnums';
+import GameField from './GameField';
+import Tank from './Tank';
+import Enums from './TanksGameEnums';
 
 class TanksGame{
 
-  private Player1: Tank;
+  public readonly Player1: Tank;
   
-  public GameField: GameBlockType[][];
+  public readonly GameField: GameField;
 
-  private filed_max_x: number;
-  private filed_max_y: number;
+  public fire_xx?: number;
+  public fire_yy?: number;
+  public fire_size: number = 4;
+  public fire_direction?: Enums.DirectionType; 
 
+  private readonly spriteSize: number;
 
-  constructor(filed_max_y: number, filed_max_x: number)
+  constructor(spriteSize: number, filed_max_y: number, filed_max_x: number)
   {
-    this.filed_max_x = filed_max_x;
-    this.filed_max_y = filed_max_y;
-    this.GameField = new Array(this.filed_max_y).fill(GameBlockType.Ground).map(() => new Array(this.filed_max_x).fill(GameBlockType.Ground));
-    this.Player1 = new Tank(50, 50);
-    for (let index = 0; index < this.filed_max_y; index++) {
-      this.GameField[index][0] = GameBlockType.ConcreteWall1;
-      this.GameField[index][this.filed_max_x - 1] = GameBlockType.ConcreteWall1;
-    }
-
-    for (let index = 0; index < this.filed_max_x; index++) {
-      this.GameField[0][index] = GameBlockType.ConcreteWall2;
-      this.GameField[this.filed_max_y - 1][index] = GameBlockType.ConcreteWall2;
-    }
+    this.spriteSize = spriteSize;
+    this.GameField = new GameField(spriteSize, filed_max_y, filed_max_x);
+    this.Player1 = new Tank(this.GameField, 1 * this.spriteSize, 1 * this.spriteSize);
   }
 
   public Tic()
   {
+    
   }
 
-  public MoveLeft()
-  {
+  public MoveLeft() {
+    this.Player1.MoveLeft();
   }
 
-  public MoveRight()
-  {
+  public Fire() {
+    if (this.fire_xx || this.fire_yy)
+    {
+      return;
+    }
+
+    this.fire_direction = this.Player1.Direction;
+  }
+
+  public MoveRight() {
+    const new_xx = this.Player1.Abs_xx + 1;
+    const new_yy = this.Player1.Abs_yy;
+    if (this.GameField.canMove(new_xx, new_yy, this.spriteSize)) {
+      this.Player1.MoveRight();
+    }
   }
 
   public MoveUp() {
+    this.Player1.MoveUp();
   }
 
   public MoveDown() {
+    this.Player1.MoveDown();
   }
-}
-
-class Tank
-{
-  constructor(player_y: number, player_x: number)
-  {
-    this.player_x = player_x;
-    this.player_y = player_y;
-  }
-
-  private player_x: number = 0;
-  private player_y: number = 0;
-  private direction: number = 0;
-  private sprite_iteraction: number = 0;
-
-  get Player_x(): number { return this.player_x}
-  get Player_y(): number { return this.player_y}
-  get Direction(): number { return this.direction}
-  get Sprite_iteraction(): number { return this.sprite_iteraction}
-
 }
 
 export default TanksGame;

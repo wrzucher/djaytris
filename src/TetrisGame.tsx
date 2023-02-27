@@ -1,6 +1,6 @@
 import React from 'react';
 import Game from './Game';
-import GameField from './GameField';
+import TetrisGameField from './TetrisGameField';
 
 class TetrisGame extends React.Component<{}, { gameField: number[][] }> {
   private readonly game: Game;
@@ -60,7 +60,7 @@ class TetrisGame extends React.Component<{}, { gameField: number[][] }> {
   render() {
     return (
       <div>
-        <GameField gameField={this.state.gameField} />
+        <TetrisGameField gameField={this.state.gameField} />
       </div>
     );
   }

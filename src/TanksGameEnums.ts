@@ -1,16 +1,23 @@
-enum GameBlockType
-{
-  Ground,
-  Player1,
-  Player2,
-  Wall1_1,
-  Wall1_2,
-  Wall2,
-  Wall3,
-  Wall4,
-  Wall5,
-  ConcreteWall1,
-  ConcreteWall2,
+
+namespace Enums {
+
+  export enum GameBlockType
+  {
+    Ground,
+    Player1 = 10,
+    Player2 = 11,
+    BreakWall1 = 50,
+    ConcreteWall1 = 61,
+    Fire = 91,
+  }
+
+  export enum DirectionType
+  {
+    Up,
+    Down,
+    Left,
+    Right,
+  }
 }
 
-export default GameBlockType;
+export default Enums;

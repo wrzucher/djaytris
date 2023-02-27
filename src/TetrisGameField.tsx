@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 
-function GameField(props: { gameField:number[][]}) {
+function TetrisGameField(props: { gameField:number[][]}) {
   return (
       <table>
         <tbody>
@@ -26,4 +26,4 @@ function GameField(props: { gameField:number[][]}) {
   );
 }
 
-export default GameField;
+export default TetrisGameField;

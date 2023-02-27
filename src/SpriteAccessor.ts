@@ -1,13 +1,14 @@
-import GameBlockType from './TanksGameEnums';
+import Enums from './TanksGameEnums';
 
 class SpriteAccessor {
 
   private sprite?: HTMLCanvasElement;
   private renderingContex?: CanvasRenderingContext2D;
-  private readonly sprite_amount_max_x = 8;
+  private readonly sprite_amount_max_x = 24;
   private readonly sprite_amount_max_y = 4;
   
-  public readonly spriteSize: number = 84;
+  public readonly spriteSize: number = 16;
+  public readonly fireSpriteSize: number = 5;
 
   public Initialize() {
     const image = window.document.getElementById("tanksSprite");
@@ -29,56 +30,122 @@ class SpriteAccessor {
         const r = imageData.data[offset];
         const g = imageData.data[offset + 1];
         const b = imageData.data[offset + 2];
-        // if it is pure white, change its alpha to 0
-        if (r == 255 && g == 255 && b == 255) {
+
+        if (r === 0 && g === 0 && b === 1) {
           imageData.data[offset + 3] = 0;
         }
+
+        /*
+        // if it is pure white, change its alpha to 0
+        if (r === 255 && g === 255 && b === 255) {
+          imageData.data[offset + 3] = 0;
+        }
+        */
       }
     }
 
     this.renderingContex.putImageData(imageData, 0, 0);
   }
 
-  public getValidSpriteIteraction(current_sprite_ineraction: number, gameBlockType: GameBlockType): number {
+  public getValidSpriteIteraction(current_sprite_ineraction: number, gameBlockType: Enums.GameBlockType): number {
     switch (gameBlockType) {
-      case GameBlockType.Ground:
+      case Enums.GameBlockType.Ground:
         return 0;
-      case GameBlockType.Player1:
+      case Enums.GameBlockType.Player1:
         var next = current_sprite_ineraction++;
-        if (current_sprite_ineraction > 8)
+        if (current_sprite_ineraction > 1)
         {
           next = 0;
         }
 
         return next;
-      case GameBlockType.ConcreteWall1:
+      case Enums.GameBlockType.ConcreteWall1:
         return 0;
-      case GameBlockType.ConcreteWall2:
-          return 0;
+      case Enums.GameBlockType.BreakWall1:
+        return 0;
+      case Enums.GameBlockType.Fire:
+        return 0;
       default:
-        return 0;
+        throw new Error(`GameBlockType ${gameBlockType} doesn't exist`);
     }
   }
 
-  public getImage(sprite_ineraction: number, gameBlockType: GameBlockType): ImageData {
-    const startPosition = this.getStartPosition(gameBlockType);
-    const currentPosition = startPosition + sprite_ineraction;
+  public getImage(direction: Enums.DirectionType | null, sprite_ineraction: number, gameBlockType: Enums.GameBlockType): ImageData {
+    if (gameBlockType == Enums.GameBlockType.Fire)
+    {
+      let y = 102;
+      let x = 322;
+      
+      switch (direction) {
+        case Enums.DirectionType.Up:
+          // do not do anything
+          break;
+        case Enums.DirectionType.Left:
+          x = 330;
+          break;
+        case Enums.DirectionType.Down:
+          y--;
+          x = 338;
+          break;
+        case Enums.DirectionType.Right:
+          x = 345;
+          break;
+      
+        default:
+          throw new Error(`Incorrect direction ${direction}`);
+      }
 
+      if (!this.renderingContex)
+      {
+        throw new Error("Image or canvas for sprite not found");
+      }
+
+      return this.renderingContex.getImageData(
+        x,
+        y,
+        this.fireSpriteSize,
+        this.fireSpriteSize);
+    }
+
+    const startPosition = this.getStartPosition(gameBlockType);
+    const directionIncrement = this.getDirectionIncrement(direction);
+
+    const currentPosition = startPosition + sprite_ineraction + directionIncrement;
     return this.getRawSprite(currentPosition);
   }
 
-  public getStartPosition(gameBlockType: GameBlockType): number {
+  private getStartPosition(gameBlockType: Enums.GameBlockType): number {
     switch (gameBlockType) {
-      case GameBlockType.Ground:
+      case Enums.GameBlockType.Ground:
+        return 21;
+      case Enums.GameBlockType.Player1:
         return 0;
-      case GameBlockType.Player1:
-        return 1;
-      case GameBlockType.Wall1_1:
-        return 24;
-      case GameBlockType.ConcreteWall1:
-        return 30;
-      case GameBlockType.ConcreteWall2:
-        return 31;
+      case Enums.GameBlockType.BreakWall1:
+        return 16;
+      case Enums.GameBlockType.ConcreteWall1:
+        return 40;
+      case Enums.GameBlockType.Fire:
+        return 0;
+      default:
+        throw new Error(`Direction ${gameBlockType} doesn't exist`);
+    }
+  }
+
+  private getDirectionIncrement(direction: Enums.DirectionType | null): number {
+    if (direction === null)
+    {
+      return 0;
+    }
+
+    switch (direction) {
+      case Enums.DirectionType.Up:
+        return 0;
+      case Enums.DirectionType.Down:
+        return 4;
+      case Enums.DirectionType.Left:
+        return 2;
+      case Enums.DirectionType.Right:
+        return 6;
       default:
         return 0;
     }
@@ -108,6 +175,17 @@ class SpriteAccessor {
       this.spriteSize,
       this.spriteSize);
   }
+}
+
+class Coordinates
+{
+  constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
+
+  public x: number = 0;
+  public y: number = 0;
 }
 
 export default SpriteAccessor;
