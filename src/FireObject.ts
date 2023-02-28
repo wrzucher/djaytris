@@ -1,31 +1,34 @@
-import GameField from './GameField';
 import IGameObject from './IGameObject';
+import TanksGame from './TanksGame';
 import Enums from './TanksGameEnums';
 
 class FireObject implements IGameObject{
   private readonly max_sprite: number = 1;
-  private readonly gameField: GameField;
+  private readonly game: TanksGame;
+  private readonly playerSize: number;
 
-  constructor(gameField: GameField, player_yy: number, player_xx: number, player_direction: Enums.DirectionType)
+  constructor(game: TanksGame, player_yy: number, player_xx: number, player_direction: Enums.DirectionType, playerSize: number)
   {
-    this.gameField = gameField;
+    this.game = game;
     this.fire_direction = player_direction;
+    this.playerSize = playerSize;
+
     switch (this.fire_direction) {
       case Enums.DirectionType.Down:
-        this.fire_xx = player_xx + Math.floor(this.spriteSize / 2) - 3;
-        this.fire_yy = player_yy + this.spriteSize;
+        this.fire_xx = player_xx + Math.floor(this.playerSize / 2) - 3;
+        this.fire_yy = player_yy + this.playerSize;
         break;
       case Enums.DirectionType.Up:
-        this.fire_xx = player_xx + Math.floor(this.spriteSize / 2) - 3;
+        this.fire_xx = player_xx + Math.floor(this.playerSize / 2) - 3;
         this.fire_yy = player_yy - this.spriteSize;
         break;
       case Enums.DirectionType.Left:
         this.fire_xx = player_xx - this.spriteSize;
-        this.fire_yy = player_yy + Math.floor(this.spriteSize / 2) - 2;
+        this.fire_yy = player_yy + Math.floor(this.playerSize / 2) - 2;
         break;
       case Enums.DirectionType.Right:
-        this.fire_xx = player_xx + this.spriteSize;
-        this.fire_yy = player_yy + Math.floor(this.spriteSize / 2) - 2;
+        this.fire_xx = player_xx + this.playerSize;
+        this.fire_yy = player_yy + Math.floor(this.playerSize / 2) - 2;
         break;
       default:
         throw new Error(`Incorrect direction ${this.fire_direction}`);
@@ -65,13 +68,11 @@ class FireObject implements IGameObject{
           throw new Error(`Incorrect direction ${this.fire_direction}`);
       }
 
-      if (this.gameField.canMove(new_fire_xx, new_fire_yy, this.spriteSize)) {
+      if (this.game.canMove(new_fire_xx, new_fire_yy, this.spriteSize)) {
         this.fire_xx = new_fire_xx;
         this.fire_yy = new_fire_yy;
       } else {
-        // this.fire_xx = undefined;
-        // this.fire_yy = undefined;
-        // this.fire_direction = undefined;
+        this.game.stopFire();
       }
     }
   }

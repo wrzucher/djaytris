@@ -4,13 +4,13 @@ class GameField{
 
   public readonly GameField: Enums.GameBlockType[][];
 
-  private readonly filed_max_x: number;
-  private readonly filed_max_y: number;
+  public readonly filed_max_x: number;
+  public readonly filed_max_y: number;
 
-  private readonly filed_max_xx: number;
-  private readonly filed_max_yy: number;
+  public readonly filed_max_xx: number;
+  public readonly filed_max_yy: number;
 
-  private readonly spriteSize: number;
+  public readonly spriteSize: number;
 
   constructor(spriteSize: number, filed_max_y: number, filed_max_x: number)
   {
@@ -32,55 +32,6 @@ class GameField{
     }
 
     this.GameField[5][5] = Enums.GameBlockType.BreakWall1;
-  }
-
-  public canMove(new_xx: number, new_yy: number, size: number): boolean
-  {
-    if (new_xx <= 0) {
-      return false;
-    }
-
-    if (new_yy <= 0) {
-      return false;
-    }
-
-    if (new_xx >= this.filed_max_xx) {
-      return false;
-    }
-
-    if (new_yy >= this.filed_max_yy) {
-      return false;
-    }
-
-    let new_x = Math.floor(new_xx / this.spriteSize);
-    let new_y = Math.floor(new_yy / this.spriteSize);
-    if (this.GameField[new_y][new_x] !== Enums.GameBlockType.Ground)
-    {
-      return false;
-    }
-
-    new_x = Math.floor((new_xx + size) / this.spriteSize);
-    new_y = Math.floor(new_yy / this.spriteSize);
-    if (this.GameField[new_y][new_x] !== Enums.GameBlockType.Ground)
-    {
-      return false;
-    }
-
-    new_x = Math.floor(new_xx / this.spriteSize);
-    new_y = Math.floor((new_yy  + size) / this.spriteSize);
-    if (this.GameField[new_y][new_x] !== Enums.GameBlockType.Ground)
-    {
-      return false;
-    }
-
-    new_x = Math.floor((new_xx + size) / this.spriteSize);
-    new_y = Math.floor((new_yy + size) / this.spriteSize);
-    if (this.GameField[new_y][new_x] !== Enums.GameBlockType.Ground)
-    {
-      return false;
-    }
-
-    return true;
   }
 }
 

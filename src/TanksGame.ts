@@ -1,3 +1,4 @@
+import FireObject from './FireObject';
 import GameField from './GameField';
 import Tank from './Tank';
 import Enums from './TanksGameEnums';
@@ -5,13 +6,9 @@ import Enums from './TanksGameEnums';
 class TanksGame{
 
   public readonly Player1: Tank;
+  public Fire1?: FireObject;
   
   public readonly GameField: GameField;
-
-  public fire_xx?: number;
-  public fire_yy?: number;
-  public fire_size: number = 4;
-  public fire_direction?: Enums.DirectionType; 
 
   private readonly spriteSize: number;
 
@@ -19,12 +16,15 @@ class TanksGame{
   {
     this.spriteSize = spriteSize;
     this.GameField = new GameField(spriteSize, filed_max_y, filed_max_x);
-    this.Player1 = new Tank(this.GameField, 1 * this.spriteSize, 1 * this.spriteSize);
+    this.Player1 = new Tank(this, 1 * this.spriteSize, 1 * this.spriteSize);
   }
 
   public Tic()
   {
-    
+    if (this.Fire1)
+    {
+      this.Fire1.Tic();
+    }
   }
 
   public MoveLeft() {
@@ -32,20 +32,16 @@ class TanksGame{
   }
 
   public Fire() {
-    if (this.fire_xx || this.fire_yy)
+    if (this.Fire1)
     {
       return;
     }
 
-    this.fire_direction = this.Player1.Direction;
+    this.Fire1 = new FireObject(this, this.Player1.Abs_yy, this.Player1.Abs_xx, this.Player1.Direction, this.Player1.spriteSize);
   }
 
   public MoveRight() {
-    const new_xx = this.Player1.Abs_xx + 1;
-    const new_yy = this.Player1.Abs_yy;
-    if (this.GameField.canMove(new_xx, new_yy, this.spriteSize)) {
-      this.Player1.MoveRight();
-    }
+    this.Player1.MoveRight();
   }
 
   public MoveUp() {
@@ -54,6 +50,60 @@ class TanksGame{
 
   public MoveDown() {
     this.Player1.MoveDown();
+  }
+
+  public canMove(new_xx: number, new_yy: number, size: number): boolean
+  {
+    if (new_xx <= 0) {
+      return false;
+    }
+
+    if (new_yy <= 0) {
+      return false;
+    }
+
+    if (new_xx >= this.GameField.filed_max_xx) {
+      return false;
+    }
+
+    if (new_yy >= this.GameField.filed_max_yy) {
+      return false;
+    }
+
+    let new_x = Math.floor(new_xx / this.spriteSize);
+    let new_y = Math.floor(new_yy / this.spriteSize);
+    if (this.GameField.GameField[new_y][new_x] !== Enums.GameBlockType.Ground)
+    {
+      return false;
+    }
+
+    new_x = Math.floor((new_xx + size) / this.spriteSize);
+    new_y = Math.floor(new_yy / this.spriteSize);
+    if (this.GameField.GameField[new_y][new_x] !== Enums.GameBlockType.Ground)
+    {
+      return false;
+    }
+
+    new_x = Math.floor(new_xx / this.spriteSize);
+    new_y = Math.floor((new_yy  + size) / this.spriteSize);
+    if (this.GameField.GameField[new_y][new_x] !== Enums.GameBlockType.Ground)
+    {
+      return false;
+    }
+
+    new_x = Math.floor((new_xx + size) / this.spriteSize);
+    new_y = Math.floor((new_yy + size) / this.spriteSize);
+    if (this.GameField.GameField[new_y][new_x] !== Enums.GameBlockType.Ground)
+    {
+      return false;
+    }
+
+    return true;
+  }
+
+  public stopFire()
+  {
+    this.Fire1 = undefined;
   }
 }
 

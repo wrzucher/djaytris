@@ -62,15 +62,13 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
       this.game.Player1.Abs_xx,
       this.game.Player1.Abs_yy);
 
-    if (this.game.fire_xx !== undefined
-      && this.game.fire_yy !== undefined
-      && this.game.fire_direction !== undefined)
+    if (this.game.Fire1 !== undefined)
     {
-      const imageData = this.spriteAccessor.getImage(this.game.fire_direction, 0, Enums.GameBlockType.Fire);
+      const imageData = this.spriteAccessor.getImage(this.game.Fire1.Direction, 0, Enums.GameBlockType.Fire);
       this.playerContext.putImageData(
         imageData,
-        this.game.fire_xx,
-        this.game.fire_yy);
+        this.game.Fire1.Abs_xx,
+        this.game.Fire1.Abs_yy);
     }
   }
 

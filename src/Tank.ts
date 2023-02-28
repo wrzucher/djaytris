@@ -1,15 +1,15 @@
-import GameField from './GameField';
 import IGameObject from './IGameObject';
+import TanksGame from './TanksGame';
 import Enums from './TanksGameEnums';
 
 class Tank implements IGameObject
 {
   private readonly max_sprite: number = 2;
-  private readonly gameField: GameField;
+  private readonly game: TanksGame;
 
-  constructor(gameField: GameField, player_yy: number, player_xx: number)
+  constructor(game: TanksGame, player_yy: number, player_xx: number)
   {
-    this.gameField = gameField;
+    this.game = game;
     this.player_xx = player_xx;
     this.player_yy = player_yy;
   }
@@ -33,7 +33,7 @@ class Tank implements IGameObject
   {
     const new_xx = this.Abs_xx - 1;
     const new_yy = this.Abs_yy;
-    if (this.gameField.canMove(new_xx, new_yy, this.spriteSize)) {
+    if (this.game.canMove(new_xx, new_yy, this.spriteSize)) {
       this.player_xx--;
       this.direction = Enums.DirectionType.Left;
       this.setNextSpriteInteraction();
@@ -44,7 +44,7 @@ class Tank implements IGameObject
   {
     const new_xx = this.Abs_xx + 1;
     const new_yy = this.Abs_yy;
-    if (this.gameField.canMove(new_xx, new_yy, this.spriteSize)) {
+    if (this.game.canMove(new_xx, new_yy, this.spriteSize)) {
       this.player_xx++;
       this.direction = Enums.DirectionType.Right;
       this.setNextSpriteInteraction();
@@ -54,7 +54,7 @@ class Tank implements IGameObject
   public MoveUp() {
     const new_xx = this.Abs_xx;
     const new_yy = this.Abs_yy - 1;
-    if (this.gameField.canMove(new_xx, new_yy, this.spriteSize)) {
+    if (this.game.canMove(new_xx, new_yy, this.spriteSize)) {
       this.player_yy--;
       this.direction = Enums.DirectionType.Up;
       this.setNextSpriteInteraction();
@@ -64,7 +64,7 @@ class Tank implements IGameObject
   public MoveDown() {
     const new_xx = this.Abs_xx;
     const new_yy = this.Abs_yy + 1;
-    if (this.gameField.canMove(new_xx, new_yy, this.spriteSize)) {
+    if (this.game.canMove(new_xx, new_yy, this.spriteSize)) {
       this.player_yy++;
       this.direction = Enums.DirectionType.Down;
       this.setNextSpriteInteraction();

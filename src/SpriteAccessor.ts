@@ -71,7 +71,7 @@ class SpriteAccessor {
   }
 
   public getImage(direction: Enums.DirectionType | null, sprite_ineraction: number, gameBlockType: Enums.GameBlockType): ImageData {
-    if (gameBlockType == Enums.GameBlockType.Fire)
+    if (gameBlockType === Enums.GameBlockType.Fire)
     {
       let y = 102;
       let x = 322;
