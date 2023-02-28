@@ -47,36 +47,32 @@ class FireObject implements IGameObject{
   public get Sprite_iteraction(): number { return this.sprite_iteraction}
 
   public Tic(): void {
-    if (this.fire_xx && this.fire_yy)
-    {
-      let new_fire_xx = this.fire_xx;
-      let new_fire_yy = this.fire_yy;
-      switch (this.fire_direction) {
-        case Enums.DirectionType.Down:
-          new_fire_yy++;
-          break;
-        case Enums.DirectionType.Up:
-          new_fire_yy--;
-          break;
-        case Enums.DirectionType.Left:
-          new_fire_xx--;
-          break;
-        case Enums.DirectionType.Right:
-          new_fire_xx++;
-          break;
-        default:
-          throw new Error(`Incorrect direction ${this.fire_direction}`);
-      }
+    let new_fire_xx = this.fire_xx;
+    let new_fire_yy = this.fire_yy;
+    switch (this.fire_direction) {
+      case Enums.DirectionType.Down:
+        new_fire_yy++;
+        break;
+      case Enums.DirectionType.Up:
+        new_fire_yy--;
+        break;
+      case Enums.DirectionType.Left:
+        new_fire_xx--;
+        break;
+      case Enums.DirectionType.Right:
+        new_fire_xx++;
+        break;
+      default:
+        throw new Error(`Incorrect direction ${this.fire_direction}`);
+    }
 
-      if (this.game.canMove(new_fire_xx, new_fire_yy, this.spriteSize)) {
-        this.fire_xx = new_fire_xx;
-        this.fire_yy = new_fire_yy;
-      } else {
-        this.game.stopFire();
-      }
+    if (this.game.canMove(new_fire_xx, new_fire_yy, this.spriteSize)) {
+      this.fire_xx = new_fire_xx;
+      this.fire_yy = new_fire_yy;
+    } else {
+      this.game.stopFire();
     }
   }
-
 }
 
 export default FireObject;

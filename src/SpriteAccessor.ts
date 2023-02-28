@@ -5,7 +5,7 @@ class SpriteAccessor {
   private sprite?: HTMLCanvasElement;
   private renderingContex?: CanvasRenderingContext2D;
   private readonly sprite_amount_max_x = 24;
-  private readonly sprite_amount_max_y = 4;
+  private readonly sprite_amount_max_y = 15;
   
   public readonly spriteSize: number = 16;
   public readonly fireSpriteSize: number = 5;
@@ -62,6 +62,8 @@ class SpriteAccessor {
       case Enums.GameBlockType.ConcreteWall1:
         return 0;
       case Enums.GameBlockType.BreakWall1:
+        return 0;
+      case Enums.GameBlockType.Fire:
         return 0;
       case Enums.GameBlockType.Fire:
         return 0;
@@ -126,6 +128,8 @@ class SpriteAccessor {
         return 40;
       case Enums.GameBlockType.Fire:
         return 0;
+      case Enums.GameBlockType.Explosion:
+        return 208;
       default:
         throw new Error(`Direction ${gameBlockType} doesn't exist`);
     }

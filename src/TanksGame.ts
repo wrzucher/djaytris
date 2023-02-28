@@ -1,3 +1,4 @@
+import ExplosionObject from './ExplosionObject';
 import FireObject from './FireObject';
 import GameField from './GameField';
 import Tank from './Tank';
@@ -7,6 +8,7 @@ class TanksGame{
 
   public readonly Player1: Tank;
   public Fire1?: FireObject;
+  public ExplosionObject1?: ExplosionObject;
   
   public readonly GameField: GameField;
 
@@ -24,6 +26,11 @@ class TanksGame{
     if (this.Fire1)
     {
       this.Fire1.Tic();
+    }
+
+    if (this.ExplosionObject1)
+    {
+      this.ExplosionObject1.Tic();
     }
   }
 
@@ -103,7 +110,17 @@ class TanksGame{
 
   public stopFire()
   {
+    if (this.Fire1)
+    {
+      this.ExplosionObject1 = new ExplosionObject(this, this.Fire1?.Abs_xx, this.Fire1?.Abs_yy);
+    }
+
     this.Fire1 = undefined;
+  }
+
+  public stopExplosion()
+  {
+    this.ExplosionObject1 = undefined;
   }
 }
 

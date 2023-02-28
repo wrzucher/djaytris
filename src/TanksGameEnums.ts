@@ -9,6 +9,7 @@ namespace Enums {
     BreakWall1 = 50,
     ConcreteWall1 = 61,
     Fire = 91,
+    Explosion = 101,
   }
 
   export enum DirectionType

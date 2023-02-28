@@ -7,6 +7,7 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
   private readonly game: TanksGame;
   private readonly spriteAccessor: SpriteAccessor;
   private gameTimer?: NodeJS.Timer;
+  private playerCanvas?: HTMLCanvasElement;
   private playerContext?: CanvasRenderingContext2D;
 
   constructor(props: { spriteAccessor: SpriteAccessor, game: TanksGame}) {
@@ -45,8 +46,8 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
       }
     }
 
-    const playerCanvas = playerCanvasElement as HTMLCanvasElement;
-    this.playerContext = playerCanvas.getContext("2d") as CanvasRenderingContext2D;
+    this.playerCanvas = playerCanvasElement as HTMLCanvasElement;
+    this.playerContext = this.playerCanvas.getContext("2d") as CanvasRenderingContext2D;
   }
 
   private renderGameObjects()
@@ -55,6 +56,14 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
     {
       return;
     }
+
+    if (!this.playerCanvas)
+    {
+      return;
+    }
+
+    this.playerContext.fillStyle = "rgba(0, 0, 1, 0)";
+    this.playerContext.clearRect(0, 0, this.playerCanvas.width, this.playerCanvas.height);
 
     const imageData = this.spriteAccessor.getImage(this.game.Player1.Direction, this.game.Player1.Sprite_iteraction, Enums.GameBlockType.Player1);
     this.playerContext.putImageData(
@@ -69,6 +78,15 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
         imageData,
         this.game.Fire1.Abs_xx,
         this.game.Fire1.Abs_yy);
+    }
+
+    if (this.game.ExplosionObject1 !== undefined)
+    {
+      const imageData = this.spriteAccessor.getImage(0, this.game.ExplosionObject1.Sprite_iteraction, Enums.GameBlockType.Explosion);
+      this.playerContext.putImageData(
+        imageData,
+        this.game.ExplosionObject1.Abs_xx,
+        this.game.ExplosionObject1.Abs_yy);
     }
   }
 
