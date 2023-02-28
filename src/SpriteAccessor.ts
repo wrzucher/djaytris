@@ -65,8 +65,6 @@ class SpriteAccessor {
         return 0;
       case Enums.GameBlockType.Fire:
         return 0;
-      case Enums.GameBlockType.Fire:
-        return 0;
       default:
         throw new Error(`GameBlockType ${gameBlockType} doesn't exist`);
     }
@@ -179,17 +177,6 @@ class SpriteAccessor {
       this.spriteSize,
       this.spriteSize);
   }
-}
-
-class Coordinates
-{
-  constructor(x: number, y: number) {
-    this.x = x;
-    this.y = y;
-  }
-
-  public x: number = 0;
-  public y: number = 0;
 }
 
 export default SpriteAccessor;
