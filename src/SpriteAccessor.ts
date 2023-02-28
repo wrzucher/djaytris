@@ -34,13 +34,6 @@ class SpriteAccessor {
         if (r === 0 && g === 0 && b === 1) {
           imageData.data[offset + 3] = 0;
         }
-
-        /*
-        // if it is pure white, change its alpha to 0
-        if (r === 255 && g === 255 && b === 255) {
-          imageData.data[offset + 3] = 0;
-        }
-        */
       }
     }
 
