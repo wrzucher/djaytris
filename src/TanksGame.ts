@@ -59,48 +59,48 @@ class TanksGame{
     this.Player1.moveDown();
   }
 
-  public canMove(new_xx: number, new_yy: number, size: number): boolean
+  public canMove(newXx: number, newYy: number, size: number): boolean
   {
-    if (new_xx <= 0) {
+    if (newXx <= 0) {
       return false;
     }
 
-    if (new_yy <= 0) {
+    if (newYy <= 0) {
       return false;
     }
 
-    if (new_xx >= this.GameField.filedMaxXx) {
+    if (newXx >= this.GameField.filedMaxXx) {
       return false;
     }
 
-    if (new_yy >= this.GameField.filedMaxYy) {
+    if (newYy >= this.GameField.filedMaxYy) {
       return false;
     }
 
-    let new_x = Math.floor(new_xx / this.spriteSize);
-    let new_y = Math.floor(new_yy / this.spriteSize);
-    if (this.GameField.GameField[new_y][new_x] !== Enums.GameObjectType.Ground)
+    let newX = Math.floor(newXx / this.spriteSize);
+    let newY = Math.floor(newYy / this.spriteSize);
+    if (this.GameField.GameField[newY][newX] !== Enums.GameObjectType.Ground)
     {
       return false;
     }
 
-    new_x = Math.floor((new_xx + size) / this.spriteSize);
-    new_y = Math.floor(new_yy / this.spriteSize);
-    if (this.GameField.GameField[new_y][new_x] !== Enums.GameObjectType.Ground)
+    newX = Math.floor((newXx + size) / this.spriteSize);
+    newY = Math.floor(newYy / this.spriteSize);
+    if (this.GameField.GameField[newY][newX] !== Enums.GameObjectType.Ground)
     {
       return false;
     }
 
-    new_x = Math.floor(new_xx / this.spriteSize);
-    new_y = Math.floor((new_yy  + size) / this.spriteSize);
-    if (this.GameField.GameField[new_y][new_x] !== Enums.GameObjectType.Ground)
+    newX = Math.floor(newXx / this.spriteSize);
+    newY = Math.floor((newYy  + size) / this.spriteSize);
+    if (this.GameField.GameField[newY][newX] !== Enums.GameObjectType.Ground)
     {
       return false;
     }
 
-    new_x = Math.floor((new_xx + size) / this.spriteSize);
-    new_y = Math.floor((new_yy + size) / this.spriteSize);
-    if (this.GameField.GameField[new_y][new_x] !== Enums.GameObjectType.Ground)
+    newX = Math.floor((newXx + size) / this.spriteSize);
+    newY = Math.floor((newYy + size) / this.spriteSize);
+    if (this.GameField.GameField[newY][newX] !== Enums.GameObjectType.Ground)
     {
       return false;
     }
