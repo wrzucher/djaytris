@@ -26,11 +26,11 @@ class Tank implements IGameObject
   public get SpriteIteraction(): number { return this.spriteIteraction; };
   public get SpriteType(): number { return Enums.GameSpriteType.BattleCity; };
 
-  public Tic(): void {
+  public tic(): void {
     // Do nothing because this is player object.
   }
 
-  public MoveLeft()
+  public moveLeft()
   {
     const newXx = this.AbsXx - 1;
     const newYy = this.AbsYy;
@@ -41,7 +41,7 @@ class Tank implements IGameObject
     }
   }
 
-  public MoveRight()
+  public moveRight()
   {
     const newXx = this.AbsXx + 1;
     const newYy = this.AbsYy;
@@ -52,7 +52,7 @@ class Tank implements IGameObject
     }
 }
 
-  public MoveUp() {
+  public moveUp() {
     const newXx = this.AbsXx;
     const newYy = this.AbsYy - 1;
     if (this.game.canMove(newXx, newYy, this.spriteSize)) {
@@ -62,7 +62,7 @@ class Tank implements IGameObject
     }
   }
 
-  public MoveDown() {
+  public moveDown() {
     const newXx = this.AbsXx;
     const newYy = this.AbsYy + 1;
     if (this.game.canMove(newXx, newYy, this.spriteSize)) {

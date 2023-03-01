@@ -47,7 +47,7 @@ class FireObject implements IGameObject{
   public get SpriteIteraction(): number { return this.spriteIteraction; };
   public get SpriteType(): number { return Enums.GameSpriteType.BattleCity; };
 
-  public Tic(): void {
+  public tic(): void {
     let newFireXx = this.fireXx;
     let newFireYy = this.fireYy;
     switch (this.fireDirection) {

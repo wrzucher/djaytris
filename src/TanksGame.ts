@@ -21,24 +21,24 @@ class TanksGame{
     this.Player1 = new Tank(this, 1 * this.spriteSize, 1 * this.spriteSize);
   }
 
-  public Tic()
+  public tic()
   {
     if (this.Fire1)
     {
-      this.Fire1.Tic();
+      this.Fire1.tic();
     }
 
     if (this.ExplosionObject1)
     {
-      this.ExplosionObject1.Tic();
+      this.ExplosionObject1.tic();
     }
   }
 
-  public MoveLeft() {
-    this.Player1.MoveLeft();
+  public moveLeft() {
+    this.Player1.moveLeft();
   }
 
-  public Fire() {
+  public fire() {
     if (this.Fire1)
     {
       return;
@@ -47,16 +47,16 @@ class TanksGame{
     this.Fire1 = new FireObject(this, this.Player1.AbsYy, this.Player1.AbsXx, this.Player1.Direction, this.Player1.spriteSize);
   }
 
-  public MoveRight() {
-    this.Player1.MoveRight();
+  public moveRight() {
+    this.Player1.moveRight();
   }
 
-  public MoveUp() {
-    this.Player1.MoveUp();
+  public moveUp() {
+    this.Player1.moveUp();
   }
 
-  public MoveDown() {
-    this.Player1.MoveDown();
+  public moveDown() {
+    this.Player1.moveDown();
   }
 
   public canMove(new_xx: number, new_yy: number, size: number): boolean

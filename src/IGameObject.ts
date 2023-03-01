@@ -9,7 +9,7 @@ interface IGameObject
   get SpriteIteraction(): number;
   get SpriteType(): Enums.GameSpriteType;
 
-  Tic(): void;
+  tic(): void;
 }
 
 export default IGameObject;

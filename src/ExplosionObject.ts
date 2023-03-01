@@ -27,7 +27,7 @@ class ExplosionObject implements IGameObject{
   public get SpriteIteraction(): number { return this.spriteIteraction; };
   public get SpriteType(): number { return Enums.GameSpriteType.BattleCity; };
 
-  public Tic(): void {
+  public tic(): void {
     this.currentSpriteDelay++;
     if (this.currentSpriteDelay >= this.spriteDelay)
     {

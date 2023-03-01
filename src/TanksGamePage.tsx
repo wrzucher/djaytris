@@ -22,7 +22,7 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
     if (!this.gameTimer)
     {
       this.gameTimer = setInterval(() => {
-        this.game.Tic();
+        this.game.tic();
         this.renderGameObjects();
       }, 20)
 
@@ -92,23 +92,23 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
 
   private onKeyPress(e: globalThis.KeyboardEvent) {
     if (e.code === "Space") {
-      this.game.Fire();
+      this.game.fire();
     }
 
     if (e.code === "ArrowRight") {
-      this.game.MoveRight();
+      this.game.moveRight();
     }
 
     if (e.code === "ArrowLeft") {
-      this.game.MoveLeft();
+      this.game.moveLeft();
     }
 
     if (e.code === "ArrowDown") {
-      this.game.MoveDown();
+      this.game.moveDown();
     }
 
     if (e.code === "ArrowUp") {
-      this.game.MoveUp();
+      this.game.moveUp();
     }
   }
 
