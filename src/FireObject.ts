@@ -15,42 +15,49 @@ class FireObject implements IGameObject{
 
     switch (this.fireDirection) {
       case Enums.DirectionType.Down:
-        this.fireXx = playerXx + Math.floor(this.playerSize / 2) - 3;
-        this.fireYy = playerYy + this.playerSize;
+        this.fireX1 = playerXx + Math.floor(this.playerSize / 2) - 3;
+        this.fireY1 = playerYy + this.playerSize;
         break;
       case Enums.DirectionType.Up:
-        this.fireXx = playerXx + Math.floor(this.playerSize / 2) - 3;
-        this.fireYy = playerYy - this.spriteSize;
+        this.fireX1 = playerXx + Math.floor(this.playerSize / 2) - 3;
+        this.fireY1 = playerYy - this.spriteSize;
         break;
       case Enums.DirectionType.Left:
-        this.fireXx = playerXx - this.spriteSize;
-        this.fireYy = playerYy + Math.floor(this.playerSize / 2) - 2;
+        this.fireX1 = playerXx - this.spriteSize;
+        this.fireY1 = playerYy + Math.floor(this.playerSize / 2) - 2;
         break;
       case Enums.DirectionType.Right:
-        this.fireXx = playerXx + this.playerSize;
-        this.fireYy = playerYy + Math.floor(this.playerSize / 2) - 2;
+        this.fireX1 = playerXx + this.playerSize;
+        this.fireY1 = playerYy + Math.floor(this.playerSize / 2) - 2;
         break;
       default:
         throw new Error(`Incorrect direction ${this.fireDirection}`);
     }
+
+    this.fireX2 = this.fireX1 + this.spriteSize;
+    this.fireY2 = this.fireY1 + this.spriteSize;
   }
 
-  private fireXx: number = 0;
-  private fireYy: number = 0;
+  private fireX1: number = 0;
+  private fireY1: number = 0;
+  private fireX2: number = 0;
+  private fireY2: number = 0;
   private fireDirection: Enums.DirectionType = 0;
   private spriteIteraction: number = 0;
   
   public spriteSize: number = 4;
-  public get AbsXx(): number { return this.fireXx; };
-  public get AbsYy(): number { return this.fireYy; };
+  public get X1(): number { return this.fireX1; };
+  public get Y1(): number { return this.fireY1; };
+  public get X2(): number { return this.fireX2; };
+  public get Y2(): number { return this.fireY2; };
   public get Direction(): Enums.DirectionType { return this.fireDirection; };
   public get SpriteIteraction(): number { return this.spriteIteraction; };
   public get SpriteType(): number { return Enums.GameSpriteType.BattleCity; };
   public get GameObjectType(): number { return Enums.GameObjectType.Fire; };
 
   public tic(): void {
-    let newFireXx = this.fireXx;
-    let newFireYy = this.fireYy;
+    let newFireXx = this.fireX1;
+    let newFireYy = this.fireY1;
     switch (this.fireDirection) {
       case Enums.DirectionType.Down:
         newFireYy++;
@@ -69,8 +76,11 @@ class FireObject implements IGameObject{
     }
 
     if (this.game.canMove(newFireXx, newFireYy, this.spriteSize)) {
-      this.fireXx = newFireXx;
-      this.fireYy = newFireYy;
+      this.fireX1 = newFireXx;
+      this.fireY1 = newFireYy;
+      
+      this.fireX2 = this.fireX1 + this.spriteSize;
+      this.fireY2 = this.fireY1 + this.spriteSize;
     } else {
       this.game.stopFire();
     }

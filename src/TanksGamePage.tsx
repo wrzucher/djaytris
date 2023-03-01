@@ -37,8 +37,19 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
     const tanksCanvas = tanksCanvasElement as HTMLCanvasElement;
     const context2d = tanksCanvas.getContext("2d") as CanvasRenderingContext2D;
 
+    for (let index = 0; index < this.game.GameField.gameField.length; index++) {
+      const wall = this.game.GameField.gameField[index];
+      const imageData = this.spriteAccessor.getImage(wall);
+
+      context2d.putImageData(
+        imageData,
+        wall.X1,
+        wall.Y1);
+    }
+
     for (let y = 0; y < this.game.GameField.GameField.length; y++) {
       for (let x = 0; x < this.game.GameField.GameField[y].length; x++) {
+
         // context2d.putImageData(this.spriteAccessor.getImage(null, 0, this.game.GameField.GameField[y][x]), x * this.spriteAccessor.spriteSize, y * this.spriteAccessor.spriteSize);
       }
     }
@@ -65,16 +76,16 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
     const imageData = this.spriteAccessor.getImage(this.game.Player1);
     this.playerContext.putImageData(
       imageData,
-      this.game.Player1.AbsXx,
-      this.game.Player1.AbsYy);
+      this.game.Player1.X1,
+      this.game.Player1.Y1);
 
     if (this.game.Fire1 !== undefined)
     {
       const imageData = this.spriteAccessor.getImage(this.game.Fire1);
       this.playerContext.putImageData(
         imageData,
-        this.game.Fire1.AbsXx,
-        this.game.Fire1.AbsYy);
+        this.game.Fire1.X1,
+        this.game.Fire1.Y1);
     }
 
     if (this.game.ExplosionObject1 !== undefined)
@@ -82,8 +93,8 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
       const imageData = this.spriteAccessor.getImage(this.game.ExplosionObject1);
       this.playerContext.putImageData(
         imageData,
-        this.game.ExplosionObject1.AbsXx,
-        this.game.ExplosionObject1.AbsYy);
+        this.game.ExplosionObject1.X1,
+        this.game.ExplosionObject1.Y1);
     }
   }
 

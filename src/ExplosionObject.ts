@@ -21,8 +21,10 @@ class ExplosionObject implements IGameObject{
   private currentSpriteDelay: number = 0;
   
   public spriteSize: number = 16;
-  public get AbsXx(): number { return this.explosionXx; };
-  public get AbsYy(): number { return this.explosionYy; };
+  public get X1(): number { return this.explosionXx; };
+  public get Y1(): number { return this.explosionYy; };
+  public get X2(): number { return this.explosionXx + this.spriteSize; };
+  public get Y2(): number { return this.explosionYy + this.spriteSize; };
   public get Direction(): Enums.DirectionType { return this.fireDirection; };
   public get SpriteIteraction(): number { return this.spriteIteraction; };
   public get SpriteType(): number { return Enums.GameSpriteType.BattleCity; };

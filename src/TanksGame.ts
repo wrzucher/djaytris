@@ -44,7 +44,7 @@ class TanksGame{
       return;
     }
 
-    this.Fire1 = new FireObject(this, this.Player1.AbsYy, this.Player1.AbsXx, this.Player1.Direction, this.Player1.spriteSize);
+    this.Fire1 = new FireObject(this, this.Player1.Y1, this.Player1.X1, this.Player1.Direction, this.Player1.spriteSize);
   }
 
   public moveRight() {
@@ -77,30 +77,14 @@ class TanksGame{
       return false;
     }
 
-    let newX = Math.floor(newXx / this.spriteSize);
-    let newY = Math.floor(newYy / this.spriteSize);
-    if (this.GameField.GameField[newY][newX] !== Enums.GameObjectType.Ground)
-    {
-      return false;
-    }
+    let newX_00 = newXx;
+    let newY_00 = newYy;
 
-    newX = Math.floor((newXx + size) / this.spriteSize);
-    newY = Math.floor(newYy / this.spriteSize);
-    if (this.GameField.GameField[newY][newX] !== Enums.GameObjectType.Ground)
-    {
-      return false;
-    }
+    let newX_01 = newXx + this.spriteSize;
+    let newY_01 = newYy + this.spriteSize;
 
-    newX = Math.floor(newXx / this.spriteSize);
-    newY = Math.floor((newYy  + size) / this.spriteSize);
-    if (this.GameField.GameField[newY][newX] !== Enums.GameObjectType.Ground)
-    {
-      return false;
-    }
-
-    newX = Math.floor((newXx + size) / this.spriteSize);
-    newY = Math.floor((newYy + size) / this.spriteSize);
-    if (this.GameField.GameField[newY][newX] !== Enums.GameObjectType.Ground)
+    let found = this.GameField.gameField.filter((_) => _.X1 >= newXx && _.X1 <= newX_01 && _.Y1 >= newYy && _.Y1 <= newY_01);
+    if (found && found.length > 0)
     {
       return false;
     }
@@ -112,7 +96,7 @@ class TanksGame{
   {
     if (this.Fire1)
     {
-      this.ExplosionObject1 = new ExplosionObject(this, this.Fire1?.AbsXx, this.Fire1?.AbsYy);
+      this.ExplosionObject1 = new ExplosionObject(this, this.Fire1?.X1, this.Fire1?.Y1);
     }
 
     this.Fire1 = undefined;
