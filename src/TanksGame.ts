@@ -3,7 +3,6 @@ import ExplosionObject from './ExplosionObject';
 import FireObject from './FireObject';
 import GameField from './GameField';
 import Tank from './Tank';
-import Enums from './TanksGameEnums';
 
 class TanksGame{
 
@@ -103,7 +102,7 @@ class TanksGame{
 
   public breakTheWall(wall: BreakWallObject)
   {
-    this.GameField.gameField = this.GameField.gameField.filter((_) => _ != wall);
+    this.GameField.gameField = this.GameField.gameField.filter((_) => _ !== wall);
   }
 
   public stopExplosion()

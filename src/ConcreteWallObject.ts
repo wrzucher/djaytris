@@ -1,5 +1,4 @@
 import IGameObject from './IGameObject';
-import TanksGame from './TanksGame';
 import Enums from './TanksGameEnums';
 
 class ConcreteWallObject implements IGameObject{

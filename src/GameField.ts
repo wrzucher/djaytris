@@ -24,7 +24,7 @@ class GameField{
     this.filedMaxY = filedMaxY;
     this.filedMaxXx = filedMaxX * this.spriteSize;
     this.filedMaxYy = filedMaxY * this.spriteSize;
-    this.gameField = new Array();
+    this.gameField = [];
 
     for (let index = 0; index < this.filedMaxY; index++) {
       this.gameField.push(new ConcreteWallObject(index * this.spriteSize, 0));
