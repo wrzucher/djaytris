@@ -65,28 +65,28 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
     this.playerContext.fillStyle = "rgba(0, 0, 1, 0)";
     this.playerContext.clearRect(0, 0, this.playerCanvas.width, this.playerCanvas.height);
 
-    const imageData = this.spriteAccessor.getImage(this.game.Player1.Direction, this.game.Player1.Sprite_iteraction, Enums.GameBlockType.Player1);
+    const imageData = this.spriteAccessor.getImage(this.game.Player1.Direction, this.game.Player1.SpriteIteraction, Enums.GameBlockType.Player1);
     this.playerContext.putImageData(
       imageData,
-      this.game.Player1.Abs_xx,
-      this.game.Player1.Abs_yy);
+      this.game.Player1.AbsXx,
+      this.game.Player1.AbsYy);
 
     if (this.game.Fire1 !== undefined)
     {
       const imageData = this.spriteAccessor.getImage(this.game.Fire1.Direction, 0, Enums.GameBlockType.Fire);
       this.playerContext.putImageData(
         imageData,
-        this.game.Fire1.Abs_xx,
-        this.game.Fire1.Abs_yy);
+        this.game.Fire1.AbsXx,
+        this.game.Fire1.AbsYy);
     }
 
     if (this.game.ExplosionObject1 !== undefined)
     {
-      const imageData = this.spriteAccessor.getImage(0, this.game.ExplosionObject1.Sprite_iteraction, Enums.GameBlockType.Explosion);
+      const imageData = this.spriteAccessor.getImage(0, this.game.ExplosionObject1.SpriteIteraction, Enums.GameBlockType.Explosion);
       this.playerContext.putImageData(
         imageData,
-        this.game.ExplosionObject1.Abs_xx,
-        this.game.ExplosionObject1.Abs_yy);
+        this.game.ExplosionObject1.AbsXx,
+        this.game.ExplosionObject1.AbsYy);
     }
   }
 

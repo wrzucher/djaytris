@@ -3,10 +3,11 @@ import Enums from './TanksGameEnums';
 interface IGameObject
 {
   readonly spriteSize: number;
-  get Abs_xx(): number;
-  get Abs_yy(): number;
+  get AbsXx(): number;
+  get AbsYy(): number;
   get Direction(): Enums.DirectionType;
-  get Sprite_iteraction(): number;
+  get SpriteIteraction(): number;
+  get SpriteType(): Enums.GameSpriteType;
 
   Tic(): void;
 }

@@ -4,8 +4,8 @@ class SpriteAccessor {
 
   private sprite?: HTMLCanvasElement;
   private renderingContex?: CanvasRenderingContext2D;
-  private readonly sprite_amount_max_x = 24;
-  private readonly sprite_amount_max_y = 15;
+  private readonly spriteAmountMaxX = 24;
+  private readonly spriteAmountMaxY = 15;
   
   public readonly spriteSize: number = 16;
   public readonly fireSpriteSize: number = 5;
@@ -40,13 +40,13 @@ class SpriteAccessor {
     this.renderingContex.putImageData(imageData, 0, 0);
   }
 
-  public getValidSpriteIteraction(current_sprite_ineraction: number, gameBlockType: Enums.GameBlockType): number {
+  public getValidSpriteIteraction(currentSpriteIneraction: number, gameBlockType: Enums.GameBlockType): number {
     switch (gameBlockType) {
       case Enums.GameBlockType.Ground:
         return 0;
       case Enums.GameBlockType.Player1:
-        var next = current_sprite_ineraction++;
-        if (current_sprite_ineraction > 1)
+        var next = currentSpriteIneraction++;
+        if (currentSpriteIneraction > 1)
         {
           next = 0;
         }
@@ -63,7 +63,7 @@ class SpriteAccessor {
     }
   }
 
-  public getImage(direction: Enums.DirectionType | null, sprite_ineraction: number, gameBlockType: Enums.GameBlockType): ImageData {
+  public getImage(direction: Enums.DirectionType | null, spriteIneraction: number, gameBlockType: Enums.GameBlockType): ImageData {
     if (gameBlockType === Enums.GameBlockType.Fire)
     {
       let y = 102;
@@ -103,7 +103,7 @@ class SpriteAccessor {
     const startPosition = this.getStartPosition(gameBlockType);
     const directionIncrement = this.getDirectionIncrement(direction);
 
-    const currentPosition = startPosition + sprite_ineraction + directionIncrement;
+    const currentPosition = startPosition + spriteIneraction + directionIncrement;
     return this.getRawSprite(currentPosition);
   }
 
@@ -150,14 +150,14 @@ class SpriteAccessor {
     let x = 0;
     let y = 0;
 
-    let i = this.sprite_amount_max_y;
+    let i = this.spriteAmountMaxY;
 
     do {
       i--;
-    } while (spriteNumber < this.sprite_amount_max_x * i);
+    } while (spriteNumber < this.spriteAmountMaxX * i);
 
     y = i;
-    x = spriteNumber - this.sprite_amount_max_x * y;
+    x = spriteNumber - this.spriteAmountMaxX * y;
 
     if (!this.renderingContex)
     {

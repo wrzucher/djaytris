@@ -4,26 +4,27 @@ import Enums from './TanksGameEnums';
 
 class Tank implements IGameObject
 {
-  private readonly max_sprite: number = 2;
+  private readonly maxSprite: number = 2;
   private readonly game: TanksGame;
 
-  constructor(game: TanksGame, player_yy: number, player_xx: number)
+  constructor(game: TanksGame, playerYy: number, playerXx: number)
   {
     this.game = game;
-    this.player_xx = player_xx;
-    this.player_yy = player_yy;
+    this.playerXx = playerXx;
+    this.playerYy = playerYy;
   }
 
-  private player_xx: number = 0;
-  private player_yy: number = 0;
+  private playerXx: number = 0;
+  private playerYy: number = 0;
   private direction: Enums.DirectionType = 0;
-  private sprite_iteraction: number = 0;
+  private spriteIteraction: number = 0;
   
   public spriteSize: number = 16;
-  public get Abs_xx(): number { return this.player_xx}
-  public get Abs_yy(): number { return this.player_yy}
-  public get Direction(): Enums.DirectionType { return this.direction}
-  public get Sprite_iteraction(): number { return this.sprite_iteraction}
+  public get AbsXx(): number { return this.playerXx; };
+  public get AbsYy(): number { return this.playerYy; };
+  public get Direction(): Enums.DirectionType { return this.direction; };
+  public get SpriteIteraction(): number { return this.spriteIteraction; };
+  public get SpriteType(): number { return Enums.GameSpriteType.BattleCity; };
 
   public Tic(): void {
     // Do nothing because this is player object.
@@ -31,10 +32,10 @@ class Tank implements IGameObject
 
   public MoveLeft()
   {
-    const new_xx = this.Abs_xx - 1;
-    const new_yy = this.Abs_yy;
-    if (this.game.canMove(new_xx, new_yy, this.spriteSize)) {
-      this.player_xx--;
+    const newXx = this.AbsXx - 1;
+    const newYy = this.AbsYy;
+    if (this.game.canMove(newXx, newYy, this.spriteSize)) {
+      this.playerXx--;
       this.direction = Enums.DirectionType.Left;
       this.setNextSpriteInteraction();
     }
@@ -42,30 +43,30 @@ class Tank implements IGameObject
 
   public MoveRight()
   {
-    const new_xx = this.Abs_xx + 1;
-    const new_yy = this.Abs_yy;
-    if (this.game.canMove(new_xx, new_yy, this.spriteSize)) {
-      this.player_xx++;
+    const newXx = this.AbsXx + 1;
+    const newYy = this.AbsYy;
+    if (this.game.canMove(newXx, newYy, this.spriteSize)) {
+      this.playerXx++;
       this.direction = Enums.DirectionType.Right;
       this.setNextSpriteInteraction();
     }
 }
 
   public MoveUp() {
-    const new_xx = this.Abs_xx;
-    const new_yy = this.Abs_yy - 1;
-    if (this.game.canMove(new_xx, new_yy, this.spriteSize)) {
-      this.player_yy--;
+    const newXx = this.AbsXx;
+    const newYy = this.AbsYy - 1;
+    if (this.game.canMove(newXx, newYy, this.spriteSize)) {
+      this.playerYy--;
       this.direction = Enums.DirectionType.Up;
       this.setNextSpriteInteraction();
     }
   }
 
   public MoveDown() {
-    const new_xx = this.Abs_xx;
-    const new_yy = this.Abs_yy + 1;
-    if (this.game.canMove(new_xx, new_yy, this.spriteSize)) {
-      this.player_yy++;
+    const newXx = this.AbsXx;
+    const newYy = this.AbsYy + 1;
+    if (this.game.canMove(newXx, newYy, this.spriteSize)) {
+      this.playerYy++;
       this.direction = Enums.DirectionType.Down;
       this.setNextSpriteInteraction();
     }
@@ -73,10 +74,10 @@ class Tank implements IGameObject
 
   private setNextSpriteInteraction()
   {
-    this.sprite_iteraction++;
-    if (this.sprite_iteraction >= this.max_sprite)
+    this.spriteIteraction++;
+    if (this.spriteIteraction >= this.maxSprite)
     {
-      this.sprite_iteraction = 0;
+      this.spriteIteraction = 0;
     }
   }
 }

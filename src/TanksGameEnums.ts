@@ -19,6 +19,12 @@ namespace Enums {
     Left,
     Right,
   }
+
+  export enum GameSpriteType
+  {
+    BattleCity,
+    PacMan,
+  }
 }
 
 export default Enums;

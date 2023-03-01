@@ -44,7 +44,7 @@ class TanksGame{
       return;
     }
 
-    this.Fire1 = new FireObject(this, this.Player1.Abs_yy, this.Player1.Abs_xx, this.Player1.Direction, this.Player1.spriteSize);
+    this.Fire1 = new FireObject(this, this.Player1.AbsYy, this.Player1.AbsXx, this.Player1.Direction, this.Player1.spriteSize);
   }
 
   public MoveRight() {
@@ -112,7 +112,7 @@ class TanksGame{
   {
     if (this.Fire1)
     {
-      this.ExplosionObject1 = new ExplosionObject(this, this.Fire1?.Abs_xx, this.Fire1?.Abs_yy);
+      this.ExplosionObject1 = new ExplosionObject(this, this.Fire1?.AbsXx, this.Fire1?.AbsYy);
     }
 
     this.Fire1 = undefined;
