@@ -39,52 +39,35 @@ class Tank implements IGameObject
 
   public moveLeft()
   {
-    const newXx = this.X1 - 1;
-    const newYy = this.Y1;
-    if (this.game.canMove(newXx, newYy, this.spriteSize)) {
-      this.playerX1--;
-      this.playerX2 = this.playerX1 + this.spriteSize;
-      this.playerY2 = this.playerY1 + this.spriteSize;
-      this.direction = Enums.DirectionType.Left;
-      this.setNextSpriteInteraction();
-    }
+    this.move(this.X1 - 1, this.Y1, Enums.DirectionType.Left);
   }
 
   public moveRight()
   {
-    const newXx = this.X1 + 1;
-    const newYy = this.Y1;
-    if (this.game.canMove(newXx, newYy, this.spriteSize)) {
-      this.playerX1++;
-      this.playerX2 = this.playerX1 + this.spriteSize;
-      this.playerY2 = this.playerY1 + this.spriteSize;
-      this.direction = Enums.DirectionType.Right;
-      this.setNextSpriteInteraction();
-    }
+    this.move(this.X1 + 1, this.Y1, Enums.DirectionType.Right);
 }
 
   public moveUp() {
-    const newXx = this.X1;
-    const newYy = this.Y1 - 1;
-    if (this.game.canMove(newXx, newYy, this.spriteSize)) {
-      this.playerY1--;
-      this.playerX2 = this.playerX1 + this.spriteSize;
-      this.playerY2 = this.playerY1 + this.spriteSize;
-      this.direction = Enums.DirectionType.Up;
-      this.setNextSpriteInteraction();
-    }
+    this.move(this.X1, this.Y1 - 1, Enums.DirectionType.Up);
   }
 
   public moveDown() {
-    const newXx = this.X1;
-    const newYy = this.Y1 + 1;
-    if (this.game.canMove(newXx, newYy, this.spriteSize)) {
-      this.playerY1++;
-      this.playerX2 = this.playerX1 + this.spriteSize;
-      this.playerY2 = this.playerY1 + this.spriteSize;
-      this.direction = Enums.DirectionType.Down;
-      this.setNextSpriteInteraction();
+    this.move(this.X1, this.Y1 + 1, Enums.DirectionType.Down);
+  }
+
+  private move(candidateX: number, candidateY: number, direction: Enums.DirectionType)
+  {
+    const gameObjects = this.game.getObjectsOnThePath(candidateX, candidateY, this.spriteSize);
+    if (gameObjects.length !== 0) {
+      return;
     }
+
+    this.playerX1 = candidateX;
+    this.playerY1 = candidateY;
+    this.playerX2 = this.playerX1 + this.spriteSize;
+    this.playerY2 = this.playerY1 + this.spriteSize;
+    this.direction = direction;
+    this.setNextSpriteInteraction();
   }
   
   public interaction(): void {}

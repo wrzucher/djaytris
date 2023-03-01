@@ -75,7 +75,8 @@ class FireObject implements IGameObject{
         throw new Error(`Incorrect direction ${this.fireDirection}`);
     }
 
-    if (this.game.canMove(newFireXx, newFireYy, this.spriteSize)) {
+    const gameObjects = this.game.getObjectsOnThePath(newFireXx, newFireYy, this.spriteSize);
+    if (gameObjects.length === 0) {
       this.fireX1 = newFireXx;
       this.fireY1 = newFireYy;
       
@@ -83,6 +84,7 @@ class FireObject implements IGameObject{
       this.fireY2 = this.fireY1 + this.spriteSize;
     } else {
       this.game.stopFire();
+      gameObjects.forEach((_) => _.interaction());
     }
   }
 

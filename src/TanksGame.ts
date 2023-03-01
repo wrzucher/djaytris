@@ -2,6 +2,7 @@ import BreakWallObject from './BreakWallObject';
 import ExplosionObject from './ExplosionObject';
 import FireObject from './FireObject';
 import GameField from './GameField';
+import IGameObject from './IGameObject';
 import Tank from './Tank';
 
 class TanksGame{
@@ -59,35 +60,12 @@ class TanksGame{
     this.Player1.moveDown();
   }
 
-  public canMove(newX1: number, newY1: number, size: number): boolean
+  public getObjectsOnThePath(newX1: number, newY1: number, size: number): IGameObject[]
   {
-    if (newX1 <= 0) {
-      return false;
-    }
-
-    if (newY1 <= 0) {
-      return false;
-    }
-
-    if (newX1 >= this.GameField.filedMaxXx) {
-      return false;
-    }
-
-    if (newY1 >= this.GameField.filedMaxYy) {
-      return false;
-    }
-
     let newX_01 = newX1 + size;
     let newY_01 = newY1 + size;
 
-    let found = this.GameField.gameField.filter((_) => _.X1 <= newX_01 && _.X2 >= newX1 && _.Y1 <= newY_01 && _.Y2 >= newY1);
-    if (found && found.length > 0)
-    {
-      found[0].interaction();
-      return false;
-    }
-
-    return true;
+    return this.GameField.gameField.filter((_) => _.X1 <= newX_01 && _.X2 >= newX1 && _.Y1 <= newY_01 && _.Y2 >= newY1);
   }
 
   public stopFire()
