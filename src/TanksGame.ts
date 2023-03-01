@@ -65,7 +65,7 @@ class TanksGame{
     let newX_01 = newX1 + size;
     let newY_01 = newY1 + size;
 
-    return this.GameField.gameField.filter((_) => _.X1 <= newX_01 && _.X2 >= newX1 && _.Y1 <= newY_01 && _.Y2 >= newY1);
+    return this.GameField.gameField.filter((_) => _.X1 < newX_01 && _.X2 > newX1 && _.Y1 < newY_01 && _.Y2 > newY1);
   }
 
   public stopFire()

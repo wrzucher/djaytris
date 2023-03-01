@@ -57,6 +57,9 @@ class Tank implements IGameObject
 
   private move(candidateX: number, candidateY: number, direction: Enums.DirectionType)
   {
+    this.direction = direction;
+    this.setNextSpriteInteraction();
+
     const gameObjects = this.game.getObjectsOnThePath(candidateX, candidateY, this.spriteSize);
     if (gameObjects.length !== 0) {
       return;
@@ -66,8 +69,6 @@ class Tank implements IGameObject
     this.playerY1 = candidateY;
     this.playerX2 = this.playerX1 + this.spriteSize;
     this.playerY2 = this.playerY1 + this.spriteSize;
-    this.direction = direction;
-    this.setNextSpriteInteraction();
   }
   
   public interaction(): void {}
