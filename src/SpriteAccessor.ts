@@ -3,42 +3,42 @@ import Enums from './TanksGameEnums';
 
 class SpriteAccessor {
 
-  private sprite?: HTMLCanvasElement;
-  private renderingContex?: CanvasRenderingContext2D;
-  private readonly spriteAmountMaxX = 24;
-  private readonly spriteAmountMaxY = 15;
+  private tanksSpriteContex?: CanvasRenderingContext2D;
+  private pacmanSpriteContex?: CanvasRenderingContext2D;
+  private readonly tanksSpriteAmountMaxX = 24;
+  private readonly tanksSpriteAmountMaxY = 15;
+  private readonly pacmanSpriteAmountMaxX = 14;
+  private readonly pacmanSpriteAmountMaxY = 15;
   
   public readonly spriteSize: number = 16;
   public readonly fireSpriteSize: number = 5;
 
   public Initialize() {
-    const image = window.document.getElementById("tanksSprite");
-    const canvas = window.document.getElementById("tanksSpriteCanvas");
-    if (image === null && canvas === null)
+    const tanksSprite = window.document.getElementById("tanksSprite");
+    const pacmanSprites = window.document.getElementById("pacmanSprites");
+    const tanksSpriteCanvas = window.document.getElementById("tanksSpriteCanvas");
+    const pacmanSpriteCanvas = window.document.getElementById("pacmanSpriteCanvas");
+    if (tanksSprite === null || tanksSpriteCanvas === null || pacmanSprites === null || pacmanSpriteCanvas === null)
     {
       throw new Error("Image or canvas for sprite not found");
     }
 
-    var imageElement = image as HTMLImageElement;
-    this.sprite = canvas as HTMLCanvasElement;
-    this.renderingContex = this.sprite?.getContext("2d") as CanvasRenderingContext2D;
-    this.renderingContex.drawImage(imageElement, 0, 0);
+    const tanksImageElement = tanksSprite as HTMLImageElement;
+    const pacmanImageElement = pacmanSprites as HTMLImageElement;
+    const tanksSpriteElement = tanksSpriteCanvas as HTMLCanvasElement;
+    const pacmanSpriteElement = pacmanSpriteCanvas as HTMLCanvasElement;
+    this.tanksSpriteContex = tanksSpriteElement.getContext("2d") as CanvasRenderingContext2D;
+    this.pacmanSpriteContex = pacmanSpriteElement.getContext("2d") as CanvasRenderingContext2D;
+    this.tanksSpriteContex.drawImage(tanksImageElement, 0, 0);
+    this.pacmanSpriteContex.drawImage(pacmanImageElement, 0, 0);
 
-    const imageData = this.renderingContex.getImageData(0, 0, this.sprite.width, this.sprite.height);
-    for (let x = 0; x < imageData.width; x++) {
-      for (let y = 0; y < imageData.height; y++) {
-        const offset = (y * imageData.width + x) * 4;
-        const r = imageData.data[offset];
-        const g = imageData.data[offset + 1];
-        const b = imageData.data[offset + 2];
+    const tanksImageData = this.tanksSpriteContex.getImageData(0, 0, tanksSpriteElement.width, tanksSpriteElement.height);
+    const pacmanImageData = this.pacmanSpriteContex.getImageData(0, 0, tanksSpriteElement.width, tanksSpriteElement.height);
+    this.applyTransparency(tanksImageData);
+    this.applyTransparency(pacmanImageData);
 
-        if (r === 0 && g === 0 && b === 1) {
-          imageData.data[offset + 3] = 0;
-        }
-      }
-    }
-
-    this.renderingContex.putImageData(imageData, 0, 0);
+    this.tanksSpriteContex.putImageData(tanksImageData, 0, 0);
+    this. pacmanSpriteContex.putImageData(pacmanImageData, 0, 0);
   }
 
   public getValidSpriteIteraction(currentSpriteIneraction: number, gameBlockType: Enums.GameObjectType): number {
@@ -89,12 +89,13 @@ class SpriteAccessor {
           throw new Error(`Incorrect direction ${gameObject.Direction}`);
       }
 
-      if (!this.renderingContex)
+      if (!this.tanksSpriteContex)
       {
         throw new Error("Image or canvas for sprite not found");
       }
 
       return this.getImageData(
+        gameObject.SpriteType,
         x,
         y,
         this.fireSpriteSize,
@@ -105,23 +106,24 @@ class SpriteAccessor {
     const directionIncrement = this.getDirectionIncrement(gameObject.Direction);
 
     const currentPosition = startPosition + gameObject.SpriteIteraction + directionIncrement;
-    return this.getRawSprite(currentPosition);
+    return this.getRawSprite(gameObject.SpriteType, currentPosition);
   }
 
-  private getImageData(x: number, y: number, dx: number, dy: number): ImageData
+  private getImageData(spriteType: Enums.GameSpriteType, x: number, y: number, dx: number, dy: number): ImageData
   {
-    if (!this.renderingContex)
+    if (!this.tanksSpriteContex || !this.pacmanSpriteContex)
     {
       throw new Error("Image or canvas for sprite not found");
     }
 
-    const imageData = this.renderingContex.getImageData(
-      x,
-      y,
-      dx,
-      dy);
-
-    return imageData;
+    switch (spriteType) {
+      case Enums.GameSpriteType.BattleCity:
+        return this.tanksSpriteContex.getImageData(x, y, dx, dy);
+      case Enums.GameSpriteType.PacMan:
+        return this.pacmanSpriteContex.getImageData(x, y, dx, dy);
+      default:
+        throw new Error(`Unsupported type ${spriteType}`);
+    }
   }
 
   private getStartPosition(gameBlockType: Enums.GameObjectType): number {
@@ -163,29 +165,56 @@ class SpriteAccessor {
     }
   }
 
-  private getRawSprite(spriteNumber: number): ImageData {
+  private getRawSprite(spriteType: Enums.GameSpriteType, spriteNumber: number): ImageData {
     let x = 0;
     let y = 0;
 
-    let i = this.spriteAmountMaxY;
+    let spriteAmountMaxY = 0;
+    let spriteAmountMaxX = 0;
+
+    switch (spriteType) {
+      case Enums.GameSpriteType.BattleCity:
+        spriteAmountMaxY = this.tanksSpriteAmountMaxY;
+        spriteAmountMaxX = this.tanksSpriteAmountMaxX;
+      break;
+      case Enums.GameSpriteType.PacMan:
+        spriteAmountMaxY = this.pacmanSpriteAmountMaxY;
+        spriteAmountMaxX = this.pacmanSpriteAmountMaxX;
+      break;
+      default:
+      throw new Error(`Unsupported type ${spriteType}`);
+    }
+
+    let i = spriteAmountMaxY;
 
     do {
       i--;
-    } while (spriteNumber < this.spriteAmountMaxX * i);
+    } while (spriteNumber < spriteAmountMaxX * i);
 
     y = i;
-    x = spriteNumber - this.spriteAmountMaxX * y;
-
-    if (!this.renderingContex)
-    {
-      throw new Error("Image or canvas for sprite not found");
-    }
+    x = spriteNumber - spriteAmountMaxX * y;
 
     return this.getImageData(
+      spriteType,
       this.spriteSize * x,
       this.spriteSize * y,
       this.spriteSize,
       this.spriteSize);
+  }
+
+  private applyTransparency(imageData: ImageData) {
+    for (let x = 0; x < imageData.width; x++) {
+      for (let y = 0; y < imageData.height; y++) {
+        const offset = (y * imageData.width + x) * 4;
+        const r = imageData.data[offset];
+        const g = imageData.data[offset + 1];
+        const b = imageData.data[offset + 2];
+
+        if (r === 0 && g === 0 && b === 1) {
+          imageData.data[offset + 3] = 0;
+        }
+      }
+    }
   }
 }
 

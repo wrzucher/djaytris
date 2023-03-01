@@ -45,7 +45,7 @@ class Tank implements IGameObject
   public moveRight()
   {
     this.move(this.X1 + 1, this.Y1, Enums.DirectionType.Right);
-}
+  }
 
   public moveUp() {
     this.move(this.X1, this.Y1 - 1, Enums.DirectionType.Up);

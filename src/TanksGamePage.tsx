@@ -168,6 +168,7 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
             <canvas id="playerCanvas" className='tanksCanva canvaField2' style={{zIndex:2}}  width="352" height="352"></canvas>
             <canvas id="fireCanvas" className='tanksCanva canvaField2' style={{zIndex:3}}  width="352" height="352"></canvas>
             <canvas id="tanksSpriteCanvas" className='tanksCanva2' width="672" height="336" hidden></canvas>
+            <canvas id="pacmanSpriteCanvas" className='tanksCanva2' width="239" height="231" hidden></canvas>
         </div>
       </div>
     );
