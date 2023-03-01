@@ -1,11 +1,11 @@
 
 namespace Enums {
 
-  export enum GameBlockType
+  export enum GameObjectType
   {
     Ground,
-    Player1 = 10,
-    Player2 = 11,
+    TankType1 = 10,
+    TankType2 = 11,
     BreakWall1 = 50,
     ConcreteWall1 = 61,
     Fire = 91,

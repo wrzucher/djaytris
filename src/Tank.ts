@@ -25,6 +25,7 @@ class Tank implements IGameObject
   public get Direction(): Enums.DirectionType { return this.direction; };
   public get SpriteIteraction(): number { return this.spriteIteraction; };
   public get SpriteType(): number { return Enums.GameSpriteType.BattleCity; };
+  public get GameObjectType(): number { return Enums.GameObjectType.TankType1; };
 
   public tic(): void {
     // Do nothing because this is player object.

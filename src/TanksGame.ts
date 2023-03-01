@@ -69,38 +69,38 @@ class TanksGame{
       return false;
     }
 
-    if (new_xx >= this.GameField.filed_max_xx) {
+    if (new_xx >= this.GameField.filedMaxXx) {
       return false;
     }
 
-    if (new_yy >= this.GameField.filed_max_yy) {
+    if (new_yy >= this.GameField.filedMaxYy) {
       return false;
     }
 
     let new_x = Math.floor(new_xx / this.spriteSize);
     let new_y = Math.floor(new_yy / this.spriteSize);
-    if (this.GameField.GameField[new_y][new_x] !== Enums.GameBlockType.Ground)
+    if (this.GameField.GameField[new_y][new_x] !== Enums.GameObjectType.Ground)
     {
       return false;
     }
 
     new_x = Math.floor((new_xx + size) / this.spriteSize);
     new_y = Math.floor(new_yy / this.spriteSize);
-    if (this.GameField.GameField[new_y][new_x] !== Enums.GameBlockType.Ground)
+    if (this.GameField.GameField[new_y][new_x] !== Enums.GameObjectType.Ground)
     {
       return false;
     }
 
     new_x = Math.floor(new_xx / this.spriteSize);
     new_y = Math.floor((new_yy  + size) / this.spriteSize);
-    if (this.GameField.GameField[new_y][new_x] !== Enums.GameBlockType.Ground)
+    if (this.GameField.GameField[new_y][new_x] !== Enums.GameObjectType.Ground)
     {
       return false;
     }
 
     new_x = Math.floor((new_xx + size) / this.spriteSize);
     new_y = Math.floor((new_yy + size) / this.spriteSize);
-    if (this.GameField.GameField[new_y][new_x] !== Enums.GameBlockType.Ground)
+    if (this.GameField.GameField[new_y][new_x] !== Enums.GameObjectType.Ground)
     {
       return false;
     }

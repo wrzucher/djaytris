@@ -1,3 +1,4 @@
+import IGameObject from './IGameObject';
 import Enums from './TanksGameEnums';
 
 class SpriteAccessor {
@@ -40,11 +41,11 @@ class SpriteAccessor {
     this.renderingContex.putImageData(imageData, 0, 0);
   }
 
-  public getValidSpriteIteraction(currentSpriteIneraction: number, gameBlockType: Enums.GameBlockType): number {
+  public getValidSpriteIteraction(currentSpriteIneraction: number, gameBlockType: Enums.GameObjectType): number {
     switch (gameBlockType) {
-      case Enums.GameBlockType.Ground:
+      case Enums.GameObjectType.Ground:
         return 0;
-      case Enums.GameBlockType.Player1:
+      case Enums.GameObjectType.TankType1:
         var next = currentSpriteIneraction++;
         if (currentSpriteIneraction > 1)
         {
@@ -52,24 +53,24 @@ class SpriteAccessor {
         }
 
         return next;
-      case Enums.GameBlockType.ConcreteWall1:
+      case Enums.GameObjectType.ConcreteWall1:
         return 0;
-      case Enums.GameBlockType.BreakWall1:
+      case Enums.GameObjectType.BreakWall1:
         return 0;
-      case Enums.GameBlockType.Fire:
+      case Enums.GameObjectType.Fire:
         return 0;
       default:
         throw new Error(`GameBlockType ${gameBlockType} doesn't exist`);
     }
   }
 
-  public getImage(direction: Enums.DirectionType | null, spriteIneraction: number, gameBlockType: Enums.GameBlockType): ImageData {
-    if (gameBlockType === Enums.GameBlockType.Fire)
+  public getImage(gameObject: IGameObject): ImageData {
+    if (gameObject.GameObjectType === Enums.GameObjectType.Fire)
     {
       let y = 102;
       let x = 322;
       
-      switch (direction) {
+      switch (gameObject.Direction) {
         case Enums.DirectionType.Up:
           // do not do anything
           break;
@@ -85,7 +86,7 @@ class SpriteAccessor {
           break;
       
         default:
-          throw new Error(`Incorrect direction ${direction}`);
+          throw new Error(`Incorrect direction ${gameObject.Direction}`);
       }
 
       if (!this.renderingContex)
@@ -100,26 +101,26 @@ class SpriteAccessor {
         this.fireSpriteSize);
     }
 
-    const startPosition = this.getStartPosition(gameBlockType);
-    const directionIncrement = this.getDirectionIncrement(direction);
+    const startPosition = this.getStartPosition(gameObject.GameObjectType);
+    const directionIncrement = this.getDirectionIncrement(gameObject.Direction);
 
-    const currentPosition = startPosition + spriteIneraction + directionIncrement;
+    const currentPosition = startPosition + gameObject.SpriteIteraction + directionIncrement;
     return this.getRawSprite(currentPosition);
   }
 
-  private getStartPosition(gameBlockType: Enums.GameBlockType): number {
+  private getStartPosition(gameBlockType: Enums.GameObjectType): number {
     switch (gameBlockType) {
-      case Enums.GameBlockType.Ground:
+      case Enums.GameObjectType.Ground:
         return 21;
-      case Enums.GameBlockType.Player1:
+      case Enums.GameObjectType.TankType1:
         return 0;
-      case Enums.GameBlockType.BreakWall1:
+      case Enums.GameObjectType.BreakWall1:
         return 16;
-      case Enums.GameBlockType.ConcreteWall1:
+      case Enums.GameObjectType.ConcreteWall1:
         return 40;
-      case Enums.GameBlockType.Fire:
+      case Enums.GameObjectType.Fire:
         return 0;
-      case Enums.GameBlockType.Explosion:
+      case Enums.GameObjectType.Explosion:
         return 208;
       default:
         throw new Error(`Direction ${gameBlockType} doesn't exist`);

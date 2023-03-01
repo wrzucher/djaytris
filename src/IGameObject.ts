@@ -8,6 +8,7 @@ interface IGameObject
   get Direction(): Enums.DirectionType;
   get SpriteIteraction(): number;
   get SpriteType(): Enums.GameSpriteType;
+  get GameObjectType(): Enums.GameObjectType;
 
   tic(): void;
 }

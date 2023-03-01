@@ -1,7 +1,6 @@
 import React from 'react';
 import SpriteAccessor from './SpriteAccessor';
 import TanksGame from './TanksGame';
-import Enums from './TanksGameEnums';
 
 class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, game: TanksGame }, { }> {
   private readonly game: TanksGame;
@@ -14,8 +13,6 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
     super(props);
     this.spriteAccessor = props.spriteAccessor;
     this.game = props.game;
-
-    
   }
 
   componentDidMount() {
@@ -42,7 +39,7 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
 
     for (let y = 0; y < this.game.GameField.GameField.length; y++) {
       for (let x = 0; x < this.game.GameField.GameField[y].length; x++) {
-        context2d.putImageData(this.spriteAccessor.getImage(null, 0, this.game.GameField.GameField[y][x]), x * this.spriteAccessor.spriteSize, y * this.spriteAccessor.spriteSize);
+        // context2d.putImageData(this.spriteAccessor.getImage(null, 0, this.game.GameField.GameField[y][x]), x * this.spriteAccessor.spriteSize, y * this.spriteAccessor.spriteSize);
       }
     }
 
@@ -65,7 +62,7 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
     this.playerContext.fillStyle = "rgba(0, 0, 1, 0)";
     this.playerContext.clearRect(0, 0, this.playerCanvas.width, this.playerCanvas.height);
 
-    const imageData = this.spriteAccessor.getImage(this.game.Player1.Direction, this.game.Player1.SpriteIteraction, Enums.GameBlockType.Player1);
+    const imageData = this.spriteAccessor.getImage(this.game.Player1);
     this.playerContext.putImageData(
       imageData,
       this.game.Player1.AbsXx,
@@ -73,7 +70,7 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
 
     if (this.game.Fire1 !== undefined)
     {
-      const imageData = this.spriteAccessor.getImage(this.game.Fire1.Direction, 0, Enums.GameBlockType.Fire);
+      const imageData = this.spriteAccessor.getImage(this.game.Fire1);
       this.playerContext.putImageData(
         imageData,
         this.game.Fire1.AbsXx,
@@ -82,7 +79,7 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
 
     if (this.game.ExplosionObject1 !== undefined)
     {
-      const imageData = this.spriteAccessor.getImage(0, this.game.ExplosionObject1.SpriteIteraction, Enums.GameBlockType.Explosion);
+      const imageData = this.spriteAccessor.getImage(this.game.ExplosionObject1);
       this.playerContext.putImageData(
         imageData,
         this.game.ExplosionObject1.AbsXx,
