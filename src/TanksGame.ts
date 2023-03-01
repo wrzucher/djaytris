@@ -1,3 +1,4 @@
+import BreakWallObject from './BreakWallObject';
 import ExplosionObject from './ExplosionObject';
 import FireObject from './FireObject';
 import GameField from './GameField';
@@ -17,8 +18,8 @@ class TanksGame{
   constructor(spriteSize: number, filed_max_y: number, filed_max_x: number)
   {
     this.spriteSize = spriteSize;
-    this.GameField = new GameField(spriteSize, filed_max_y, filed_max_x);
-    this.Player1 = new Tank(this, 1 * this.spriteSize, 1 * this.spriteSize);
+    this.GameField = new GameField(this, spriteSize, filed_max_y, filed_max_x);
+    this.Player1 = new Tank(this, 3 * this.spriteSize, 3 * this.spriteSize);
   }
 
   public tic()
@@ -59,33 +60,31 @@ class TanksGame{
     this.Player1.moveDown();
   }
 
-  public canMove(newXx: number, newYy: number, size: number): boolean
+  public canMove(newX1: number, newY1: number, size: number): boolean
   {
-    if (newXx <= 0) {
+    if (newX1 <= 0) {
       return false;
     }
 
-    if (newYy <= 0) {
+    if (newY1 <= 0) {
       return false;
     }
 
-    if (newXx >= this.GameField.filedMaxXx) {
+    if (newX1 >= this.GameField.filedMaxXx) {
       return false;
     }
 
-    if (newYy >= this.GameField.filedMaxYy) {
+    if (newY1 >= this.GameField.filedMaxYy) {
       return false;
     }
 
-    let newX_00 = newXx;
-    let newY_00 = newYy;
+    let newX_01 = newX1 + size;
+    let newY_01 = newY1 + size;
 
-    let newX_01 = newXx + this.spriteSize;
-    let newY_01 = newYy + this.spriteSize;
-
-    let found = this.GameField.gameField.filter((_) => _.X1 >= newXx && _.X1 <= newX_01 && _.Y1 >= newYy && _.Y1 <= newY_01);
+    let found = this.GameField.gameField.filter((_) => _.X1 <= newX_01 && _.X2 >= newX1 && _.Y1 <= newY_01 && _.Y2 >= newY1);
     if (found && found.length > 0)
     {
+      found[0].interaction();
       return false;
     }
 
@@ -100,6 +99,11 @@ class TanksGame{
     }
 
     this.Fire1 = undefined;
+  }
+
+  public breakTheWall(wall: BreakWallObject)
+  {
+    this.GameField.gameField = this.GameField.gameField.filter((_) => _ != wall);
   }
 
   public stopExplosion()

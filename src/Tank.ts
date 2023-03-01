@@ -86,6 +86,8 @@ class Tank implements IGameObject
       this.setNextSpriteInteraction();
     }
   }
+  
+  public interaction(): void {}
 
   private setNextSpriteInteraction()
   {

@@ -1,9 +1,14 @@
 import IGameObject from './IGameObject';
+import TanksGame from './TanksGame';
 import Enums from './TanksGameEnums';
 
 class BreakWallObject implements IGameObject{
-  constructor(wallX1: number, wallY1: number)
+  private readonly maxSprite: number = 3;
+  private readonly game: TanksGame;
+
+  constructor(game: TanksGame, wallX1: number, wallY1: number)
   {
+    this.game = game;
     this.wallX1 = wallX1;
     this.wallY1 = wallY1;
     this.wallX2 = wallX1 + this.spriteSize;
@@ -29,6 +34,15 @@ class BreakWallObject implements IGameObject{
   public get GameObjectType(): number { return Enums.GameObjectType.BreakWall1; };
 
   public tic(): void {
+  }
+
+  public interaction (): void {
+    this.spriteIteraction++;
+    if (this.spriteIteraction >= this.maxSprite)
+    {
+      this.spriteIteraction = 0;
+      this.game.breakTheWall(this);
+    }
   }
 }
 

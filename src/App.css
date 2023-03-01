@@ -35,10 +35,6 @@ table, th, td {
   position: relative;
 }
 
-.canvaField1 {
-  z-index: 0;
-}
-
 .canvaField2 {
   position: absolute;
   z-index: 1;

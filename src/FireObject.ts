@@ -85,6 +85,8 @@ class FireObject implements IGameObject{
       this.game.stopFire();
     }
   }
+
+  public interaction(): void {}
 }
 
 export default FireObject;

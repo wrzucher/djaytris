@@ -6,7 +6,7 @@ import SpriteAccessor from './SpriteAccessor';
 import TanksGame from './TanksGame';
 
 const spriteAccessor: SpriteAccessor = new SpriteAccessor();
-const tanksGame: TanksGame = new TanksGame(16, 20, 20);
+const tanksGame: TanksGame = new TanksGame(16, 22, 22);
 
 function App() {
   const [state, setState] = useState('start')

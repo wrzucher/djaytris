@@ -28,8 +28,9 @@ class ConcreteWallObject implements IGameObject{
   public get SpriteType(): number { return Enums.GameSpriteType.BattleCity; };
   public get GameObjectType(): number { return Enums.GameObjectType.ConcreteWall1; };
 
-  public tic(): void {
-  }
+  public tic(): void {}
+
+  public interaction(): void {}
 }
 
 export default ConcreteWallObject;

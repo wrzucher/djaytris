@@ -94,7 +94,7 @@ class SpriteAccessor {
         throw new Error("Image or canvas for sprite not found");
       }
 
-      return this.renderingContex.getImageData(
+      return this.getImageData(
         x,
         y,
         this.fireSpriteSize,
@@ -106,6 +106,22 @@ class SpriteAccessor {
 
     const currentPosition = startPosition + gameObject.SpriteIteraction + directionIncrement;
     return this.getRawSprite(currentPosition);
+  }
+
+  private getImageData(x: number, y: number, dx: number, dy: number): ImageData
+  {
+    if (!this.renderingContex)
+    {
+      throw new Error("Image or canvas for sprite not found");
+    }
+
+    const imageData = this.renderingContex.getImageData(
+      x,
+      y,
+      dx,
+      dy);
+
+    return imageData;
   }
 
   private getStartPosition(gameBlockType: Enums.GameObjectType): number {
@@ -165,7 +181,7 @@ class SpriteAccessor {
       throw new Error("Image or canvas for sprite not found");
     }
 
-    return this.renderingContex.getImageData(
+    return this.getImageData(
       this.spriteSize * x,
       this.spriteSize * y,
       this.spriteSize,

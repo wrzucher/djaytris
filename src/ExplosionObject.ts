@@ -42,6 +42,8 @@ class ExplosionObject implements IGameObject{
       }
     }
   }
+
+  public interaction(): void {}
 }
 
 export default ExplosionObject;
