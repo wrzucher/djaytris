@@ -41,6 +41,14 @@ class GameField{
       const y = Math.floor(Math.random() * (20 - 2 + 1) + 2);
       this.gameField.push(new BreakWallObject(this.game, x * this.spriteSize, y * this.spriteSize));
     }
+
+    for (let index = 0; index < 22; index++) {
+      this.gameField.push(new BreakWallObject(this.game, index * this.spriteSize, index * this.spriteSize));
+      this.gameField.push(new ConcreteWallObject(index * this.spriteSize, (index + 1) * this.spriteSize));
+    }
+
+    this.gameField.push(new BreakWallObject(this.game, 0 * this.spriteSize, 0 * this.spriteSize));
+
   }
 }
 

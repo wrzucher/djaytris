@@ -11,11 +11,13 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
   private backStaticCanvas?: HTMLCanvasElement;
   private lowChangesCanvas?: HTMLCanvasElement;
   private playerCanvas?: HTMLCanvasElement;
+  private pacmanCanvas?: HTMLCanvasElement;
   private fireCanvas?: HTMLCanvasElement;
 
   private backStaticContext?: CanvasRenderingContext2D;
   private lowChangesContext?: CanvasRenderingContext2D;
   private playerContext?: CanvasRenderingContext2D;
+  private pacmanContext?: CanvasRenderingContext2D;
   private fireContext?: CanvasRenderingContext2D;
 
   constructor(props: { spriteAccessor: SpriteAccessor, game: TanksGame}) {
@@ -39,11 +41,13 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
     const backStaticElement = window.document.getElementById("backStaticCanvas");
     const lowChangesCanvasElement = window.document.getElementById("lowChangesCanvas");
     const playerCanvasElement = window.document.getElementById("playerCanvas");
+    const pacmanCanvasElement = window.document.getElementById("pacmanCanvas");
     const fireCanvasElement = window.document.getElementById("fireCanvas");
 
     if (backStaticElement === null
       || lowChangesCanvasElement === null
-      || lowChangesCanvasElement === null
+      || playerCanvasElement === null
+      || pacmanCanvasElement === null
       || fireCanvasElement === null)
     {
       throw new Error("Image or canvas for sprite not found");
@@ -52,11 +56,13 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
     this.backStaticCanvas = backStaticElement as HTMLCanvasElement;
     this.lowChangesCanvas = lowChangesCanvasElement as HTMLCanvasElement;
     this.playerCanvas = playerCanvasElement as HTMLCanvasElement;
+    this.pacmanCanvas = pacmanCanvasElement as HTMLCanvasElement;
     this.fireCanvas = fireCanvasElement as HTMLCanvasElement;
     
     this.backStaticContext = this.backStaticCanvas.getContext("2d") as CanvasRenderingContext2D;
     this.lowChangesContext = this.lowChangesCanvas.getContext("2d") as CanvasRenderingContext2D;
     this.playerContext = this.playerCanvas.getContext("2d") as CanvasRenderingContext2D;
+    this.pacmanContext = this.pacmanCanvas.getContext("2d") as CanvasRenderingContext2D;
     this.fireContext = this.fireCanvas.getContext("2d") as CanvasRenderingContext2D;
     
     this.backStaticContext.fillStyle = "rgba(0, 0, 0, 1)";
@@ -83,6 +89,8 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
     if (!this.playerContext
       || !this.lowChangesContext
       || !this.playerCanvas
+      || !this.pacmanCanvas
+      || !this.pacmanContext
       || !this.fireContext
       || !this.lowChangesCanvas
       || !this.fireCanvas)
@@ -92,31 +100,47 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
 
     this.lowChangesContext.fillStyle = "rgba(0, 0, 1, 0)";
     this.playerContext.fillStyle = "rgba(0, 0, 1, 0)";
+    this.pacmanContext.fillStyle = "rgba(0, 0, 1, 0)";
     this.fireContext.fillStyle = "rgba(0, 0, 1, 0)";
     this.lowChangesContext.clearRect(0, 0, this.lowChangesCanvas.width, this.lowChangesCanvas.height);
     this.playerContext.clearRect(0, 0, this.playerCanvas.width, this.playerCanvas.height);
+    this.pacmanContext.clearRect(0, 0, this.pacmanCanvas.width, this.pacmanCanvas.height);
     this.fireContext.clearRect(0, 0, this.fireCanvas.width, this.fireCanvas.height);
 
     for (let index = 0; index < this.game.GameField.gameField.length; index++) {
-      const wall = this.game.GameField.gameField[index];
-      if (wall.GameObjectType === Enums.GameObjectType.ConcreteWall1)
+      const gameObject = this.game.GameField.gameField[index];
+      if (gameObject.GameObjectType === Enums.GameObjectType.ConcreteWall1)
       {
         continue;
       }
 
-      const imageData = this.spriteAccessor.getImage(wall);
+      if (gameObject.GameObjectType === Enums.GameObjectType.TankType1)
+      {
+        const tankImageData = this.spriteAccessor.getImage(gameObject);
+        this.playerContext.putImageData(
+          tankImageData,
+          gameObject.X1,
+          gameObject.Y1);
+        continue;
+      }
+
+      if (gameObject.GameObjectType === Enums.GameObjectType.PacMan1)
+      {
+        const pacmanImageData = this.spriteAccessor.getImage(gameObject);
+        this.pacmanContext.putImageData(
+          pacmanImageData,
+          gameObject.X1,
+          gameObject.Y1);
+        continue;
+      }
+
+      const imageData = this.spriteAccessor.getImage(gameObject);
 
       this.lowChangesContext.putImageData(
         imageData,
-        wall.X1,
-        wall.Y1);
+        gameObject.X1,
+        gameObject.Y1);
     }
-
-    const imageData = this.spriteAccessor.getImage(this.game.Player1);
-    this.playerContext.putImageData(
-      imageData,
-      this.game.Player1.X1,
-      this.game.Player1.Y1);
 
     if (this.game.Fire1 !== undefined)
     {
@@ -157,19 +181,38 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
     if (e.code === "ArrowUp") {
       this.game.moveUp();
     }
+
+    if (e.code === "KeyD") {
+      this.game.PacMan1.moveRight();
+    }
+
+    if (e.code === "KeyA") {
+      this.game.PacMan1.moveLeft();
+    }
+
+    if (e.code === "KeyS") {
+      this.game.PacMan1.moveDown();
+    }
+
+    if (e.code === "KeyW") {
+      this.game.PacMan1.moveUp();
+    }
   }
 
   render() {
     return (
       <div>
-        <div className="canvaField">
-            <canvas id="backStaticCanvas" className='tanksCanva' style={{zIndex:0}} width="352" height="352"></canvas>
-            <canvas id="lowChangesCanvas" className='tanksCanva canvaField2' style={{zIndex:1}}  width="352" height="352"></canvas>
-            <canvas id="playerCanvas" className='tanksCanva canvaField2' style={{zIndex:2}}  width="352" height="352"></canvas>
-            <canvas id="fireCanvas" className='tanksCanva canvaField2' style={{zIndex:3}}  width="352" height="352"></canvas>
+        <div className="canvaField tanksCanva2">
+          <div className="canvaField1 tanksCanva2">
+              <canvas id="backStaticCanvas" className='tanksCanva' style={{zIndex:0}} width="352" height="352"></canvas>
+              <canvas id="lowChangesCanvas" className='tanksCanva canvaField2' style={{zIndex:1}}  width="352" height="352"></canvas>
+              <canvas id="playerCanvas" className='tanksCanva canvaField2' style={{zIndex:2}}  width="352" height="352"></canvas>
+              <canvas id="pacmanCanvas" className='tanksCanva canvaField2' style={{zIndex:3}}  width="352" height="352"></canvas>
+              <canvas id="fireCanvas" className='tanksCanva canvaField2' style={{zIndex:4}}  width="352" height="352"></canvas>
+          </div>
+        </div>
             <canvas id="tanksSpriteCanvas" className='tanksCanva2' width="672" height="336" hidden></canvas>
             <canvas id="pacmanSpriteCanvas" className='tanksCanva2' width="239" height="231" hidden></canvas>
-        </div>
       </div>
     );
   }

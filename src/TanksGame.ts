@@ -3,11 +3,14 @@ import ExplosionObject from './ExplosionObject';
 import FireObject from './FireObject';
 import GameField from './GameField';
 import IGameObject from './IGameObject';
+import PacMan from './PacMan';
 import Tank from './Tank';
+import Enums from './TanksGameEnums';
 
 class TanksGame{
 
   public readonly Player1: Tank;
+  public readonly PacMan1: PacMan;
   public Fire1?: FireObject;
   public ExplosionObject1?: ExplosionObject;
   
@@ -20,6 +23,9 @@ class TanksGame{
     this.spriteSize = spriteSize;
     this.GameField = new GameField(this, spriteSize, filed_max_y, filed_max_x);
     this.Player1 = new Tank(this, 3 * this.spriteSize, 3 * this.spriteSize);
+    this.PacMan1 = new PacMan(this, 10 * this.spriteSize, 10 * this.spriteSize);
+    this.GameField.gameField.push(this.Player1);
+    this.GameField.gameField.push(this.PacMan1);
   }
 
   public tic()
@@ -60,12 +66,12 @@ class TanksGame{
     this.Player1.moveDown();
   }
 
-  public getObjectsOnThePath(newX1: number, newY1: number, size: number): IGameObject[]
+  public getObjectsOnThePath(gameObjectType: Enums.GameObjectType, newX1: number, newY1: number, size: number): IGameObject[]
   {
     let newX_01 = newX1 + size;
     let newY_01 = newY1 + size;
 
-    return this.GameField.gameField.filter((_) => _.X1 < newX_01 && _.X2 > newX1 && _.Y1 < newY_01 && _.Y2 > newY1);
+    return this.GameField.gameField.filter((_) => _.GameObjectType !== gameObjectType && _.X1 < newX_01 && _.X2 > newX1 && _.Y1 < newY_01 && _.Y2 > newY1);
   }
 
   public stopFire()

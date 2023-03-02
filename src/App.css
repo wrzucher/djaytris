@@ -27,12 +27,21 @@ table, th, td {
 }
 
 .tanksCanva {
-  width: 49%;
+  width: 100%;
   height: 100%;
+}
+
+.tanksCanva2 {
+  width: 352px;
+  height: 352px;
 }
 
 .canvaField {
   position: relative;
+}
+
+.canvaField1 {
+  position: absolute;
 }
 
 .canvaField2 {

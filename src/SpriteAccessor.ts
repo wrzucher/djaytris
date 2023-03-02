@@ -102,8 +102,18 @@ class SpriteAccessor {
         this.fireSpriteSize);
     }
 
-    const startPosition = this.getStartPosition(gameObject.GameObjectType);
-    const directionIncrement = this.getDirectionIncrement(gameObject.Direction);
+    let startPosition = 0;
+    let directionIncrement = 0;
+    if (gameObject.SpriteType === Enums.GameSpriteType.BattleCity)
+    {
+      startPosition = this.getStartPosition(gameObject.GameObjectType);
+      directionIncrement = this.getDirectionIncrement(gameObject.Direction);
+    }
+
+    if (gameObject.SpriteType === Enums.GameSpriteType.PacMan)
+    {
+      startPosition = this.getPacManIncrement(gameObject.GameObjectType, gameObject.Direction);
+    }
 
     const currentPosition = startPosition + gameObject.SpriteIteraction + directionIncrement;
     return this.getRawSprite(gameObject.SpriteType, currentPosition);
@@ -141,7 +151,7 @@ class SpriteAccessor {
       case Enums.GameObjectType.Explosion:
         return 208;
       default:
-        throw new Error(`Direction ${gameBlockType} doesn't exist`);
+        throw new Error(`Position ${gameBlockType} doesn't exist`);
     }
   }
 
@@ -161,7 +171,33 @@ class SpriteAccessor {
       case Enums.DirectionType.Right:
         return 6;
       default:
-        return 0;
+        throw new Error(`Incorrect direction ${direction}!`);
+    }
+  }
+
+  private getPacManIncrement(gameBlockType: Enums.GameObjectType, direction: Enums.DirectionType | null): number {
+
+    switch (gameBlockType) {
+      case Enums.GameObjectType.PacMan1:
+        if (direction === null)
+        {
+          throw new Error(`Pacman ${gameBlockType} should have direction!`);
+        }
+
+        switch (direction) {
+          case Enums.DirectionType.Up:
+            return this.pacmanSpriteAmountMaxX * 7 + 8;
+          case Enums.DirectionType.Down:
+            return this.pacmanSpriteAmountMaxX * 8 + 8;
+          case Enums.DirectionType.Left:
+            return this.pacmanSpriteAmountMaxX * 6 + 8;
+          case Enums.DirectionType.Right:
+            return this.pacmanSpriteAmountMaxX * 5 + 8;
+          default:
+            throw new Error(`Incorrect direction ${direction}!`);
+        }
+      default:
+        throw new Error(`Position ${gameBlockType} doesn't exist`);
     }
   }
 

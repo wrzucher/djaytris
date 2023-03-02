@@ -2,9 +2,9 @@ import IGameObject from './IGameObject';
 import TanksGame from './TanksGame';
 import Enums from './TanksGameEnums';
 
-class Tank implements IGameObject
+class PacMan implements IGameObject
 {
-  private readonly maxSprite: number = 2;
+  private readonly maxSprite: number = 3;
   private readonly game: TanksGame;
 
   constructor(game: TanksGame, playerY1: number, playerX1: number)
@@ -30,8 +30,8 @@ class Tank implements IGameObject
   public get Y2(): number { return this.playerY2; };
   public get Direction(): Enums.DirectionType { return this.direction; };
   public get SpriteIteraction(): number { return this.spriteIteraction; };
-  public get SpriteType(): number { return Enums.GameSpriteType.BattleCity; };
-  public get GameObjectType(): number { return Enums.GameObjectType.TankType1; };
+  public get SpriteType(): number { return Enums.GameSpriteType.PacMan; };
+  public get GameObjectType(): number { return Enums.GameObjectType.PacMan1; };
 
   public tic(): void {
     // Do nothing because this is player object.
@@ -62,6 +62,9 @@ class Tank implements IGameObject
 
     const gameObjects = this.game.getObjectsOnThePath(this.GameObjectType, candidateX, candidateY, this.spriteSize);
     if (gameObjects.length !== 0) {
+      gameObjects
+        .filter((_) => _.GameObjectType === Enums.GameObjectType.TankType1 || _.GameObjectType === Enums.GameObjectType.BreakWall1)
+        .map((_) => _.interaction());
       return;
     }
 
@@ -83,4 +86,4 @@ class Tank implements IGameObject
   }
 }
 
-export default Tank;
+export default PacMan;

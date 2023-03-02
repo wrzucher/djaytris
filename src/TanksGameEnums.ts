@@ -6,6 +6,7 @@ namespace Enums {
     Ground,
     TankType1 = 10,
     TankType2 = 11,
+    PacMan1 = 21,
     BreakWall1 = 50,
     ConcreteWall1 = 61,
     Fire = 91,
