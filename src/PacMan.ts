@@ -64,7 +64,7 @@ class PacMan implements IGameObject
     if (gameObjects.length !== 0) {
       gameObjects
         .filter((_) => _.GameObjectType === Enums.GameObjectType.TankType1 || _.GameObjectType === Enums.GameObjectType.BreakWall1)
-        .map((_) => _.interaction());
+        .map((_) => _.interaction(this));
       return;
     }
 

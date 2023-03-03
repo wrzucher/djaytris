@@ -43,7 +43,7 @@ class ExplosionObject implements IGameObject{
     }
   }
 
-  public interaction(): void {}
+  public interaction(initiator: IGameObject): void {}
 }
 
 export default ExplosionObject;

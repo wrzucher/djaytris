@@ -36,7 +36,7 @@ class BreakWallObject implements IGameObject{
   public tic(): void {
   }
 
-  public interaction (): void {
+  public interaction (initiator: IGameObject): void {
     this.spriteIteraction++;
     if (this.spriteIteraction >= this.maxSprite)
     {

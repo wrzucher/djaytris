@@ -84,11 +84,11 @@ class FireObject implements IGameObject{
       this.fireY2 = this.fireY1 + this.spriteSize;
     } else {
       this.game.stopFire();
-      gameObjects.forEach((_) => _.interaction());
+      gameObjects.forEach((_) => _.interaction(this));
     }
   }
 
-  public interaction(): void {}
+  public interaction(initiator: IGameObject): void {}
 }
 
 export default FireObject;

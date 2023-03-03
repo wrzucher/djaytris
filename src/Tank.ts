@@ -1,6 +1,7 @@
 import IGameObject from './IGameObject';
 import TanksGame from './TanksGame';
 import Enums from './TanksGameEnums';
+import { makeObservable, observable } from "mobx"
 
 class Tank implements IGameObject
 {
@@ -9,6 +10,10 @@ class Tank implements IGameObject
 
   constructor(game: TanksGame, playerY1: number, playerX1: number)
   {
+     makeObservable(this, {
+      life: observable,
+     });
+
     this.game = game;
     this.playerX1 = playerX1;
     this.playerY1 = playerY1;
@@ -22,7 +27,8 @@ class Tank implements IGameObject
   private playerY2: number = 0;
   private direction: Enums.DirectionType = 0;
   private spriteIteraction: number = 0;
-  
+
+  public life: number = 50;
   public spriteSize: number = 16;
   public get X1(): number { return this.playerX1; };
   public get Y1(): number { return this.playerY1; };
@@ -71,7 +77,14 @@ class Tank implements IGameObject
     this.playerY2 = this.playerY1 + this.spriteSize;
   }
   
-  public interaction(): void {}
+  public interaction(initiator: IGameObject): void {
+    this.life--;
+    if (this.life <= 0)
+    {
+      // We have to kill player.
+      this.life = 0;
+    }
+  }
 
   private setNextSpriteInteraction()
   {

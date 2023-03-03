@@ -13,7 +13,7 @@ interface IGameObject
   get GameObjectType(): Enums.GameObjectType;
 
   tic(): void;
-  interaction(): void;
+  interaction(initiator: IGameObject): void;
 }
 
 export default IGameObject;

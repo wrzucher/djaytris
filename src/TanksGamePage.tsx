@@ -1,4 +1,5 @@
 import React from 'react';
+import PlayerState from './PlayerState';
 import SpriteAccessor from './SpriteAccessor';
 import TanksGame from './TanksGame';
 import Enums from './TanksGameEnums';
@@ -202,6 +203,7 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
   render() {
     return (
       <div>
+        <PlayerState player={this.game.Player1} />
         <div className="canvaField tanksCanva2">
           <div className="canvaField1 tanksCanva2">
               <canvas id="backStaticCanvas" className='tanksCanva' style={{zIndex:0}} width="352" height="352"></canvas>

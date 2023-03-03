@@ -29,7 +29,7 @@ class ConcreteWallObject implements IGameObject{
 
   public tic(): void {}
 
-  public interaction(): void {}
+  public interaction(initiator: IGameObject): void {}
 }
 
 export default ConcreteWallObject;
