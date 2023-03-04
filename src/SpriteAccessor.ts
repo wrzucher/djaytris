@@ -38,7 +38,7 @@ class SpriteAccessor {
     this.applyTransparency(pacmanImageData);
 
     this.tanksSpriteContex.putImageData(tanksImageData, 0, 0);
-    this. pacmanSpriteContex.putImageData(pacmanImageData, 0, 0);
+    this.pacmanSpriteContex.putImageData(pacmanImageData, 0, 0);
   }
 
   public getValidSpriteIteraction(currentSpriteIneraction: number, gameBlockType: Enums.GameObjectType): number {

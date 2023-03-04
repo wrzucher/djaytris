@@ -6,11 +6,11 @@ class ExplosionObject implements IGameObject{
   private readonly maxSprite: number = 3;
   private readonly game: TanksGame;
 
-  constructor(game: TanksGame, shootXx: number, shootYy: number)
+  constructor(game: TanksGame, gameObject: IGameObject)
   {
     this.game = game;
-    this.explosionXx = shootXx - 8;
-    this.explosionYy = shootYy - 8;
+    this.explosionXx = gameObject.X1 + (gameObject.X2 - gameObject.X1) / 2 - this.spriteSize / 2;
+    this.explosionYy = gameObject.Y1 + (gameObject.Y2 - gameObject.Y1) / 2 - this.spriteSize / 2;
   }
 
   private explosionXx: number = 0;
@@ -38,7 +38,7 @@ class ExplosionObject implements IGameObject{
       this.spriteIteraction++;
       if (this.spriteIteraction >= this.maxSprite)
       {
-        this.game.stopExplosion();
+        this.game.stopExplosion(this);
       }
     }
   }

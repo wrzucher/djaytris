@@ -1,5 +1,6 @@
 import React from 'react';
 import PlayerState from './PlayerState';
+import PacManState from './PacManState';
 import SpriteAccessor from './SpriteAccessor';
 import TanksGame from './TanksGame';
 import Enums from './TanksGameEnums';
@@ -135,30 +136,33 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
         continue;
       }
 
+      
+      if (gameObject.GameObjectType === Enums.GameObjectType.Fire)
+      {
+        const imageData = this.spriteAccessor.getImage(gameObject);
+        this.fireContext.putImageData(
+          imageData,
+          gameObject.X1,
+          gameObject.Y1);
+        continue;
+      }
+
+      if (gameObject.GameObjectType === Enums.GameObjectType.Explosion)
+      {
+        const imageData = this.spriteAccessor.getImage(gameObject);
+        this.fireContext.putImageData(
+          imageData,
+          gameObject.X1,
+          gameObject.Y1);
+        continue;
+      }
+
       const imageData = this.spriteAccessor.getImage(gameObject);
 
       this.lowChangesContext.putImageData(
         imageData,
         gameObject.X1,
         gameObject.Y1);
-    }
-
-    if (this.game.Fire1 !== undefined)
-    {
-      const imageData = this.spriteAccessor.getImage(this.game.Fire1);
-      this.fireContext.putImageData(
-        imageData,
-        this.game.Fire1.X1,
-        this.game.Fire1.Y1);
-    }
-
-    if (this.game.ExplosionObject1 !== undefined)
-    {
-      const imageData = this.spriteAccessor.getImage(this.game.ExplosionObject1);
-      this.fireContext.putImageData(
-        imageData,
-        this.game.ExplosionObject1.X1,
-        this.game.ExplosionObject1.Y1);
     }
   }
 
@@ -204,6 +208,7 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
     return (
       <div>
         <PlayerState player={this.game.Player1} />
+        <PacManState pacman={this.game.PacMan1} />
         <div className="canvaField tanksCanva2">
           <div className="canvaField1 tanksCanva2">
               <canvas id="backStaticCanvas" className='tanksCanva' style={{zIndex:0}} width="352" height="352"></canvas>

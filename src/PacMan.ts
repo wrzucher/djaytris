@@ -1,3 +1,4 @@
+import { makeObservable, observable } from 'mobx';
 import IGameObject from './IGameObject';
 import TanksGame from './TanksGame';
 import Enums from './TanksGameEnums';
@@ -9,6 +10,10 @@ class PacMan implements IGameObject
 
   constructor(game: TanksGame, playerY1: number, playerX1: number)
   {
+    makeObservable(this, {
+      life: observable,
+     });
+     
     this.game = game;
     this.playerX1 = playerX1;
     this.playerY1 = playerY1;
@@ -24,6 +29,7 @@ class PacMan implements IGameObject
   private spriteIteraction: number = 0;
   
   public spriteSize: number = 16;
+  public life: number = 50;
   public get X1(): number { return this.playerX1; };
   public get Y1(): number { return this.playerY1; };
   public get X2(): number { return this.playerX2; };
@@ -74,7 +80,19 @@ class PacMan implements IGameObject
     this.playerY2 = this.playerY1 + this.spriteSize;
   }
   
-  public interaction(): void {}
+  public interaction(initiator: IGameObject): void {
+    if (initiator.GameObjectType !== Enums.GameObjectType.Fire) {
+      return;
+    }
+
+    this.life--;
+    if (this.life <= 0)
+    {
+      // We have to kill player.
+      this.life = 0;
+      this.game.PacmanDie(this);
+    }
+  }
 
   private setNextSpriteInteraction()
   {

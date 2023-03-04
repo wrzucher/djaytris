@@ -11,8 +11,6 @@ class TanksGame{
 
   public readonly Player1: Tank;
   public readonly PacMan1: PacMan;
-  public Fire1?: FireObject;
-  public ExplosionObject1?: ExplosionObject;
   
   public readonly GameField: GameField;
 
@@ -30,15 +28,7 @@ class TanksGame{
 
   public tic()
   {
-    if (this.Fire1)
-    {
-      this.Fire1.tic();
-    }
-
-    if (this.ExplosionObject1)
-    {
-      this.ExplosionObject1.tic();
-    }
+    this.GameField.gameField.forEach(_ => _.tic());
   }
 
   public moveLeft() {
@@ -46,12 +36,7 @@ class TanksGame{
   }
 
   public fire() {
-    if (this.Fire1)
-    {
-      return;
-    }
-
-    this.Fire1 = new FireObject(this, this.Player1.Y1, this.Player1.X1, this.Player1.Direction, this.Player1.spriteSize);
+    this.GameField.gameField.push(new FireObject(this, this.Player1.Y1, this.Player1.X1, this.Player1.Direction, this.Player1.spriteSize));
   }
 
   public moveRight() {
@@ -74,14 +59,22 @@ class TanksGame{
     return this.GameField.gameField.filter((_) => _.GameObjectType !== gameObjectType && _.X1 < newX_01 && _.X2 > newX1 && _.Y1 < newY_01 && _.Y2 > newY1);
   }
 
-  public stopFire()
+  public stopFire(fireObject: FireObject)
   {
-    if (this.Fire1)
-    {
-      this.ExplosionObject1 = new ExplosionObject(this, this.Fire1?.X1, this.Fire1?.Y1);
-    }
+    this.GameField.gameField.push(new ExplosionObject(this, fireObject));
+    this.GameField.gameField = this.GameField.gameField.filter((_) => _ !== fireObject);
+  }
 
-    this.Fire1 = undefined;
+  public PlayerDie(player: Tank)
+  {
+    this.GameField.gameField.push(new ExplosionObject(this, player));
+    this.GameField.gameField = this.GameField.gameField.filter((_) => _ !== player);
+  }
+
+  public PacmanDie(pacman: PacMan)
+  {
+    this.GameField.gameField.push(new ExplosionObject(this, pacman));
+    this.GameField.gameField = this.GameField.gameField.filter((_) => _ !== pacman);
   }
 
   public breakTheWall(wall: BreakWallObject)
@@ -89,9 +82,9 @@ class TanksGame{
     this.GameField.gameField = this.GameField.gameField.filter((_) => _ !== wall);
   }
 
-  public stopExplosion()
+  public stopExplosion(explosionObject: ExplosionObject)
   {
-    this.ExplosionObject1 = undefined;
+    this.GameField.gameField = this.GameField.gameField.filter((_) => _ !== explosionObject);
   }
 }
 

@@ -83,6 +83,7 @@ class Tank implements IGameObject
     {
       // We have to kill player.
       this.life = 0;
+      this.game.PlayerDie(this);
     }
   }
 
