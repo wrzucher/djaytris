@@ -8,6 +8,7 @@ class PacMan implements IGameObject {
   private readonly maxSprite: number = 3;
   private readonly game: TanksGame;
   private path: Point[] = [];
+  private inShock: number = 0;
 
   constructor(game: TanksGame, playerY1: number, playerX1: number) {
     makeObservable(this, {
@@ -41,6 +42,15 @@ class PacMan implements IGameObject {
   public get GameObjectType(): number { return Enums.GameObjectType.PacMan1; };
 
   public tic(): void {
+    if (this.inShock > 0) {
+      this.inShock--;
+      if (this.inShock <= 0) {
+        this.inShock = 0;
+      } else {
+        return;
+      }
+    }
+
     if (!this.game.Player1) {
       return;
     }
@@ -67,6 +77,7 @@ class PacMan implements IGameObject {
     }
 
     this.life--;
+    this.inShock = 70;
     if (this.life <= 0) {
       // We have to kill player.
       this.life = 0;

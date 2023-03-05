@@ -32,6 +32,7 @@ class Tank implements IGameObject
   private get CanMove(): boolean { return this.life > 0; };
 
   public fire?: FireObject;
+  public gunReloading: number = 100;
   public life: number = 50;
   public spriteSize: number = 16;
   public get X1(): number { return this.playerX1; };
@@ -45,6 +46,13 @@ class Tank implements IGameObject
 
   public tic(): void {
     // Do nothing because this is player object.
+
+    if (this.gunReloading < 100) {
+      this.gunReloading++;
+      if (this.gunReloading >= 100) {
+        this.gunReloading = 100;
+      }
+    }
   }
 
   public moveLeft()
@@ -70,13 +78,14 @@ class Tank implements IGameObject
       return;
     }
 
-    if (this.fire)
+    if (this.gunReloading != 100)
     {
       return;
     }
 
     this.fire = new FireObject(this.game, this.Y1, this.X1, this.Direction, this.spriteSize);
     this.game.GameField.gameField.push(this.fire);
+    this.gunReloading = 0;
   }
 
   public stopFire(fireObject: FireObject)
