@@ -76,7 +76,7 @@ class PacMan implements IGameObject {
       return;
     }
 
-    this.life--;
+    this.life -= 10;
     this.inShock = 70;
     if (this.life <= 0) {
       // We have to kill player.

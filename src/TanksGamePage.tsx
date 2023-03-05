@@ -1,6 +1,5 @@
 import React from 'react';
 import PlayerState from './PlayerState';
-import PacManState from './PacManState';
 import SpriteAccessor from './SpriteAccessor';
 import TanksGame from './TanksGame';
 import Enums from './TanksGameEnums';
@@ -9,6 +8,7 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
   private readonly game: TanksGame;
   private readonly spriteAccessor: SpriteAccessor;
   private gameTimer?: NodeJS.Timer;
+  private renderTimer?: NodeJS.Timer;
 
   private backStaticCanvas?: HTMLCanvasElement;
   private lowChangesCanvas?: HTMLCanvasElement;
@@ -29,10 +29,15 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
   }
 
   componentDidMount() {
-    if (!this.gameTimer)
-    {
+    if (!this.gameTimer) {
       this.gameTimer = setInterval(() => {
         this.game.tic();
+        this.renderGameObjects();
+      }, 20)
+    }
+
+    if (!this.renderTimer) {
+      this.renderTimer = setInterval(() => {
         this.renderGameObjects();
       }, 20)
 
@@ -192,7 +197,6 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
     return (
       <div>
         <PlayerState player={this.game.Player1} />
-        <PacManState pacman={this.game.PacMan1} />
         <div className="canvaField tanksCanva2">
           <div className="canvaField1 tanksCanva2">
               <canvas id="backStaticCanvas" className='tanksCanva' style={{zIndex:0}} width="352" height="352"></canvas>

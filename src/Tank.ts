@@ -78,7 +78,7 @@ class Tank implements IGameObject
       return;
     }
 
-    if (this.gunReloading != 100)
+    if (this.gunReloading !== 100)
     {
       return;
     }
