@@ -36,7 +36,7 @@ class TanksGame{
   }
 
   public fire() {
-    this.GameField.gameField.push(new FireObject(this, this.Player1.Y1, this.Player1.X1, this.Player1.Direction, this.Player1.spriteSize));
+    this.Player1.makeFire();
   }
 
   public moveRight() {
@@ -61,8 +61,7 @@ class TanksGame{
 
   public stopFire(fireObject: FireObject)
   {
-    this.GameField.gameField.push(new ExplosionObject(this, fireObject));
-    this.GameField.gameField = this.GameField.gameField.filter((_) => _ !== fireObject);
+    this.Player1.stopFire(fireObject);
   }
 
   public PlayerDie(player: Tank)

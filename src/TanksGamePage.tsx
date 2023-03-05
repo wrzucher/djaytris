@@ -186,22 +186,6 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
     if (e.code === "ArrowUp") {
       this.game.moveUp();
     }
-
-    if (e.code === "KeyD") {
-      this.game.PacMan1.moveRight();
-    }
-
-    if (e.code === "KeyA") {
-      this.game.PacMan1.moveLeft();
-    }
-
-    if (e.code === "KeyS") {
-      this.game.PacMan1.moveDown();
-    }
-
-    if (e.code === "KeyW") {
-      this.game.PacMan1.moveUp();
-    }
   }
 
   render() {

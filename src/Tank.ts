@@ -2,6 +2,8 @@ import IGameObject from './IGameObject';
 import TanksGame from './TanksGame';
 import Enums from './TanksGameEnums';
 import { makeObservable, observable } from "mobx"
+import FireObject from './FireObject';
+import ExplosionObject from './ExplosionObject';
 
 class Tank implements IGameObject
 {
@@ -27,7 +29,9 @@ class Tank implements IGameObject
   private playerY2: number = 0;
   private direction: Enums.DirectionType = 0;
   private spriteIteraction: number = 0;
+  private get CanMove(): boolean { return this.life > 0; };
 
+  public fire?: FireObject;
   public life: number = 50;
   public spriteSize: number = 16;
   public get X1(): number { return this.playerX1; };
@@ -61,8 +65,37 @@ class Tank implements IGameObject
     this.move(this.X1, this.Y1 + 1, Enums.DirectionType.Down);
   }
 
+  public makeFire() {
+    if (!this.CanMove) {
+      return;
+    }
+
+    if (this.fire)
+    {
+      return;
+    }
+
+    this.fire = new FireObject(this.game, this.Y1, this.X1, this.Direction, this.spriteSize);
+    this.game.GameField.gameField.push(this.fire);
+  }
+
+  public stopFire(fireObject: FireObject)
+  {
+    if (this.fire !== fireObject) {
+      return;
+    }
+
+    this.game.GameField.gameField.push(new ExplosionObject(this.game, fireObject));
+    this.game.GameField.gameField = this.game.GameField.gameField.filter((_) => _ !== fireObject);
+    this.fire = undefined;
+  }
+
   private move(candidateX: number, candidateY: number, direction: Enums.DirectionType)
   {
+    if (!this.CanMove) {
+      return;
+    }
+
     this.direction = direction;
     this.setNextSpriteInteraction();
 
