@@ -9,6 +9,7 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
   private readonly spriteAccessor: SpriteAccessor;
   private gameTimer?: NodeJS.Timer;
   private renderTimer?: NodeJS.Timer;
+  private keyMap: string[] = [];
 
   private backStaticCanvas?: HTMLCanvasElement;
   private lowChangesCanvas?: HTMLCanvasElement;
@@ -31,6 +32,7 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
   componentDidMount() {
     if (!this.gameTimer) {
       this.gameTimer = setInterval(() => {
+        this.pressKeys();
         this.game.tic();
         this.renderGameObjects();
       }, 20)
@@ -42,6 +44,7 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
       }, 20)
 
       window.addEventListener("keydown", this.onKeyPress.bind(this));
+      window.addEventListener("keyup", this.onKeyUp.bind(this));
     }
 
     this.spriteAccessor.Initialize();
@@ -91,8 +94,32 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
     }
   }
 
-  private renderGameObjects()
-  {
+  private pressKeys() {
+    for (let index = 0; index < this.keyMap.length; index++) {
+      const code = this.keyMap[index];     
+      if (code === "ArrowRight") {
+        this.game.moveRight();
+        break;
+      }
+      
+      if (code === "ArrowLeft") {
+        this.game.moveLeft();
+        break;
+      }
+      
+      if (code === "ArrowDown") {
+        this.game.moveDown();
+        break;
+      }
+      
+      if (code === "ArrowUp") {
+        this.game.moveUp();
+        break;
+      }
+    }
+  }
+
+  private renderGameObjects() {
     if (!this.playerContext
       || !this.lowChangesContext
       || !this.playerCanvas
@@ -100,8 +127,7 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
       || !this.pacmanContext
       || !this.fireContext
       || !this.lowChangesCanvas
-      || !this.fireCanvas)
-    {
+      || !this.fireCanvas) {
       return;
     }
 
@@ -176,21 +202,13 @@ class TanksGamePage extends React.Component<{ spriteAccessor: SpriteAccessor, ga
       this.game.fire();
     }
 
-    if (e.code === "ArrowRight") {
-      this.game.moveRight();
+    if (!this.keyMap.find((_) => _ === e.code)) {
+      this.keyMap.push(e.code);
     }
+  }
 
-    if (e.code === "ArrowLeft") {
-      this.game.moveLeft();
-    }
-
-    if (e.code === "ArrowDown") {
-      this.game.moveDown();
-    }
-
-    if (e.code === "ArrowUp") {
-      this.game.moveUp();
-    }
+  private onKeyUp(e: globalThis.KeyboardEvent) {
+    this.keyMap = this.keyMap.filter((_) => _ !== e.code);
   }
 
   render() {
