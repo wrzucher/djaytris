@@ -196,6 +196,8 @@ class SpriteAccessor {
           default:
             throw new Error(`Incorrect direction ${direction}!`);
         }
+      case Enums.GameObjectType.PacManDie:
+        return 3;
       default:
         throw new Error(`Position ${gameBlockType} doesn't exist`);
     }

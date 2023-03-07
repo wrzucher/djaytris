@@ -36,11 +36,27 @@ class GameField{
       this.gameField.push(new ConcreteWallObject((this.filedMaxY - 1) * this.spriteSize, index * this.spriteSize));
     }
 
-    for (let index = 0; index < 20; index++) {
+    for (let index = 0; index < 40; index++) {
       const x = Math.floor(Math.random() * (20 - 2 + 1) + 2);
       const y = Math.floor(Math.random() * (20 - 2 + 1) + 2);
-      this.gameField.push(new BreakWallObject(this.game, x * this.spriteSize, y * this.spriteSize));
+      const _ = this.pushNewObject(new BreakWallObject(this.game, x * this.spriteSize, y * this.spriteSize));
     }
+
+    for (let index = 0; index < 10; index++) {
+      const x = Math.floor(Math.random() * (20 - 2 + 1) + 2);
+      const y = Math.floor(Math.random() * (20 - 2 + 1) + 2);
+      const _ = this.pushNewObject(new ConcreteWallObject(x * this.spriteSize, y * this.spriteSize));
+    }
+  }
+
+  public pushNewObject(gameObject: IGameObject): boolean {
+    const cellFree = this.gameField.find((_) => _.X1 === gameObject.X1 && _.Y1 === gameObject.Y1)
+    if (cellFree) {
+      return false;
+    }
+
+    this.gameField.push(gameObject);
+    return true;
   }
 }
 

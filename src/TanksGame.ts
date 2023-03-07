@@ -4,16 +4,14 @@ import FireObject from './FireObject';
 import GameField from './GameField';
 import IGameObject from './IGameObject';
 import PacMan from './PacMan';
+import PacManDieObject from './PacManDieObject';
 import Tank from './Tank';
 import Enums from './TanksGameEnums';
 
 class TanksGame{
 
   public readonly Player1: Tank;
-  public readonly PacMan1: PacMan;
-  
   public readonly GameField: GameField;
-
   private readonly spriteSize: number;
 
   constructor(spriteSize: number, filed_max_y: number, filed_max_x: number)
@@ -21,9 +19,8 @@ class TanksGame{
     this.spriteSize = spriteSize;
     this.GameField = new GameField(this, spriteSize, filed_max_y, filed_max_x);
     this.Player1 = new Tank(this, 3 * this.spriteSize, 3 * this.spriteSize);
-    this.PacMan1 = new PacMan(this, 10 * this.spriteSize, 10 * this.spriteSize);
+    this.createPacMan();
     this.GameField.gameField.push(this.Player1);
-    this.GameField.gameField.push(this.PacMan1);
   }
 
   public tic()
@@ -73,7 +70,7 @@ class TanksGame{
 
   public PacmanDie(pacman: PacMan)
   {
-    this.GameField.gameField.push(new ExplosionObject(this, pacman));
+    this.GameField.gameField.push(new PacManDieObject(this, pacman));
     this.GameField.gameField = this.GameField.gameField.filter((_) => _ !== pacman);
   }
 
@@ -85,6 +82,22 @@ class TanksGame{
   public stopExplosion(explosionObject: ExplosionObject)
   {
     this.GameField.gameField = this.GameField.gameField.filter((_) => _ !== explosionObject);
+  }
+
+  public stopPacManDie(pacManDieObject: PacManDieObject)
+  {
+    this.GameField.gameField = this.GameField.gameField.filter((_) => _ !== pacManDieObject);
+    this.createPacMan();
+  }
+
+  private createPacMan() {
+    let isAdded = false;
+    do {
+      let x = Math.floor(Math.random() * (20 - 2 + 1) + 2);
+      let y = Math.floor(Math.random() * (20 - 2 + 1) + 2);
+      isAdded = this.GameField.pushNewObject(new PacMan(this, x * this.spriteSize, y * this.spriteSize));
+    }
+    while (!isAdded);
   }
 }
 
