@@ -39,13 +39,13 @@ class GameField{
     for (let index = 0; index < 40; index++) {
       const x = Math.floor(Math.random() * (20 - 2 + 1) + 2);
       const y = Math.floor(Math.random() * (20 - 2 + 1) + 2);
-      const _ = this.pushNewObject(new BreakWallObject(this.game, x * this.spriteSize, y * this.spriteSize));
+      this.pushNewObject(new BreakWallObject(this.game, x * this.spriteSize, y * this.spriteSize));
     }
 
     for (let index = 0; index < 10; index++) {
       const x = Math.floor(Math.random() * (20 - 2 + 1) + 2);
       const y = Math.floor(Math.random() * (20 - 2 + 1) + 2);
-      const _ = this.pushNewObject(new ConcreteWallObject(x * this.spriteSize, y * this.spriteSize));
+      this.pushNewObject(new ConcreteWallObject(x * this.spriteSize, y * this.spriteSize));
     }
   }
 
