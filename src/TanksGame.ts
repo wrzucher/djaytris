@@ -61,7 +61,8 @@ class TanksGame{
 
   public stopFire(fireObject: FireObject)
   {
-    this.Player1.stopFire(fireObject);
+    this.GameField.gameField.push(new ExplosionObject(this, fireObject));
+    this.GameField.gameField = this.GameField.gameField.filter((_) => _ !== fireObject);
   }
 
   public PlayerDie(player: Tank)
