@@ -3,7 +3,6 @@ import TanksGame from './TanksGame';
 import Enums from './TanksGameEnums';
 import { makeObservable, observable } from "mobx"
 import FireObject from './FireObject';
-import ExplosionObject from './ExplosionObject';
 
 class Tank implements IGameObject
 {
