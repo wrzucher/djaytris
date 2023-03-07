@@ -18,7 +18,7 @@ class TanksGame{
   {
     this.spriteSize = spriteSize;
     this.GameField = new GameField(this, spriteSize, filed_max_y, filed_max_x);
-    this.Player1 = new Tank(this, 3 * this.spriteSize, 3 * this.spriteSize);
+    this.Player1 = new Tank(this, 1 * this.spriteSize, 1 * this.spriteSize);
     this.createPacMan();
     this.GameField.gameField.push(this.Player1);
   }
