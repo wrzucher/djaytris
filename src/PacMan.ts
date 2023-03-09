@@ -90,16 +90,20 @@ class PacMan implements IGameObject {
     let dX = this.X1 - this.game.Player1.X1;
     let dY = this.Y1 - this.game.Player1.Y1;
     if (Math.abs(dX) >= Math.abs(dY)) {
-      this.path.push(new Point(this.game.Player1.X1, this.Y1));
+      this.path.push(new Point(this.getRoundedCoordinate(this.game.Player1.X1), this.getRoundedCoordinate(this.Y1)));
     }
     
     if (Math.abs(dX) < Math.abs(dY)) {
-      this.path.push(new Point(this.X1, this.game.Player1.Y1));
+      this.path.push(new Point(this.getRoundedCoordinate(this.X1), this.getRoundedCoordinate(this.game.Player1.Y1)));
     }
 
-    this.path.push(new Point(this.game.Player1.X1, this.game.Player1.Y1));
+    this.path.push(new Point(this.getRoundedCoordinate(this.game.Player1.X1), this.getRoundedCoordinate(this.game.Player1.Y1)));
   }
   
+  private getRoundedCoordinate(coordinate: number): number {
+    return Math.round(coordinate / this.game.GameField.spriteSize) * this.game.GameField.spriteSize;
+  }
+
   private getDirection(xSource: number, ySource: number, xDestination: number, yDestination: number): Enums.DirectionType {
     let dX = xSource - xDestination;
     let dY = ySource - yDestination;
