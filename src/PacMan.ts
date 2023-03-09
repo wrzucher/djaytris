@@ -29,6 +29,8 @@ class PacMan implements IGameObject {
   private playerY2: number = 0;
   private direction: Enums.DirectionType = Enums.DirectionType.Left;
   private spriteIteraction: number = 0;
+  private distanceToPlayer: number = 0;
+  private lastDistanceToPlayer: number = 0;
   
   public spriteSize: number = 16;
   public life: number = 50;
@@ -46,6 +48,7 @@ class PacMan implements IGameObject {
       this.inShock--;
       if (this.inShock <= 0) {
         this.inShock = 0;
+        this.setPath();
       } else {
         return;
       }
@@ -59,13 +62,13 @@ class PacMan implements IGameObject {
       this.setPath();
     }
 
-    const target = this.path[0];
+    let target = this.path[0];
     if (target.X === this.X1 && target.Y === this.Y1)
     {
       this.setPath();
     }
 
-    const direction = this.getDirection(this.X1, this.Y1, target.X, target.Y);
+    let direction = this.getDirection(this.X1, this.Y1, target.X, target.Y);
     if (!this.move(direction)) {
       this.setPath();
     }
@@ -102,6 +105,34 @@ class PacMan implements IGameObject {
   
   private getRoundedCoordinate(coordinate: number): number {
     return Math.round(coordinate / this.game.GameField.spriteSize) * this.game.GameField.spriteSize;
+  }
+
+  private avoidanceWall() {
+    const target = this.path[0];
+    const direction = this.getDirection(this.X1, this.Y1, target.X, target.Y);
+
+    let newPoint: Point | null = null;
+    const spriteSize = this.game.GameField.spriteSize;
+    switch (direction) {
+      case Enums.DirectionType.Down:
+        newPoint = new Point(this.X1 + spriteSize, this.Y1);
+        break;
+      case Enums.DirectionType.Up:
+        newPoint = new Point(this.X1 - spriteSize, this.Y1);
+        break;
+      case Enums.DirectionType.Left:
+        newPoint = new Point(this.X1, this.Y1 + spriteSize);
+        break;
+      case Enums.DirectionType.Right:
+        newPoint = new Point(this.X1, this.Y1 - spriteSize);
+        break;
+      default:
+        break;
+    }
+
+    if (newPoint) {
+      this.path.unshift(newPoint);
+    }
   }
 
   private getDirection(xSource: number, ySource: number, xDestination: number, yDestination: number): Enums.DirectionType {
@@ -147,9 +178,18 @@ class PacMan implements IGameObject {
 
     const gameObjects = this.game.getObjectsOnThePath(this.GameObjectType, candidateX, candidateY, this.spriteSize);
     if (gameObjects.length !== 0) {
-      gameObjects
-        .filter((_) => _.GameObjectType === Enums.GameObjectType.TankType1 || _.GameObjectType === Enums.GameObjectType.BreakWall1)
-        .map((_) => _.interaction(this));
+      const playerOrWall = gameObjects
+        .filter((_) => _.GameObjectType === Enums.GameObjectType.TankType1 || _.GameObjectType === Enums.GameObjectType.BreakWall1);
+      playerOrWall.map((_) => _.interaction(this));
+      if (playerOrWall.length > 0) {
+        return true;
+      }
+
+      if (this.path.length === 2) {
+        this.avoidanceWall();
+        return true;
+      }
+
       return false;
     }
 
@@ -157,7 +197,23 @@ class PacMan implements IGameObject {
     this.playerY1 = candidateY;
     this.playerX2 = this.playerX1 + this.spriteSize;
     this.playerY2 = this.playerY1 + this.spriteSize;
+
+    this.distanceToPlayer = this.getDistanceToPlayer(this.playerX1, this.playerY1);
+    if (this.lastDistanceToPlayer === 0) {
+      this.lastDistanceToPlayer = this.distanceToPlayer;
+    }
+
+    if (this.distanceToPlayer <= this.lastDistanceToPlayer) {
+      this.lastDistanceToPlayer = this.distanceToPlayer;
+    } else {
+      return false;
+    }
+
     return true;
+  }
+
+  private getDistanceToPlayer(x: number, y: number) {
+    return Math.sqrt((x - this.game.Player1.X1) ** 2 + (y - this.game.Player1.Y1) ** 2);
   }
 
   private setNextSpriteInteraction() {
