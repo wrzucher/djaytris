@@ -1,17 +1,8 @@
-enum GameBlockType
-{
-  Square,
-  Line,
-  LLeft,
-  LRight,
-  ZLeft,
-  ZRight,
-}
+import GameBlockType from "./GameBlockType";
 
 class Game{
 
-  private currentObject: GameBlockType = GameBlockType.Square;
-  private nextObject: GameBlockType = GameBlockType.Square;
+  private nextObject?: GameBlockType = GameBlockType.Square;
   private gameObject: number[][] = new Array(4).fill(0).map(() => new Array(4).fill(0));
   
   private filed_max_x: number;
@@ -22,15 +13,21 @@ class Game{
 
   public GameField: number[][];
 
-  constructor(filed_max_y: number, filed_max_x: number)
+  public constructor(gameField: number[][], firstObject: GameBlockType, player_x: number = 5, player_y: number = 0)
   {
-    this.filed_max_x = filed_max_x;
-    this.filed_max_y = filed_max_y;
-    this.GameField = new Array(this.filed_max_y).fill(0).map(() => new Array(this.filed_max_x).fill(0));
-    var random = Math.floor(Math.random() * (5 + 1));
-    this.gameObject = this.GetGameBlock(random)
+    this.filed_max_y = gameField.length;
+    this.filed_max_x = gameField[0].length;
+    this.GameField = gameField;
+    this.gameObject = this.GetGameBlock(firstObject)
+    this.player_x = player_x;
+    this.player_y = player_y;
   }
 
+  public Initialize()
+  {
+    this.DrawPlayer();
+  }
+  
   public SetNextObject(nextObject: GameBlockType)
   {
     this.nextObject = nextObject;
@@ -177,8 +174,14 @@ class Game{
     }
 
     this.player_y = 0;
-    var random = Math.floor(Math.random() * (5 + 1));
-    this.gameObject = this.GetGameBlock(random)
+    this.gameObject = this.GetGameBlock(this.GetNextObject())
+  }
+
+  private GetNextObject(): GameBlockType
+  {
+    const next =  this.nextObject ?? Math.floor(Math.random() * (5 + 1));
+    this.nextObject = undefined;
+    return next;
   }
 
   private MoveFieldDown(lineNumber: number) {
@@ -216,10 +219,10 @@ class Game{
 
     switch (gameBlockType) {
         case GameBlockType.Square:
+          gameBlock[0][0] = 1;
+          gameBlock[0][1] = 1;
+          gameBlock[1][0] = 1;
           gameBlock[1][1] = 1;
-          gameBlock[1][2] = 1;
-          gameBlock[2][1] = 1;
-          gameBlock[2][2] = 1;
           break;
         case GameBlockType.ZLeft:
           gameBlock[0][2] = 1;

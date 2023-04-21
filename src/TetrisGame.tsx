@@ -9,7 +9,10 @@ class TetrisGame extends React.Component<{}, { gameField: number[][] }> {
   
   constructor(props: {}) {
     super(props);
-    this.game = new Game(20, 10);
+    const initialField = new Array(20).fill(0).map(() => new Array(10).fill(0));
+    const firstRandom = Math.floor(Math.random() * (5 + 1));
+    this.game = new Game(initialField, firstRandom);
+    this.game.Initialize();
     this.state = {gameField: this.game.GameField };    
 
     window.addEventListener("keydown", this.onKeyPress.bind(this));
