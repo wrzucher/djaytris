@@ -63,3 +63,28 @@ test('Object should freeze after stuck and start from top', () => {
     [0,0,2,2,0],
   ]);
 });
+test('We can reverse object', () => {
+  // Arrange
+  const gameField = [
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+  ];
+  const player_y = 3; // Player almost on the ground
+  const game = new Game(gameField, GameBlockType.Line, 0, player_y);
+  game.Initialize();
+
+  // Act
+  game.RotateLeft();
+
+  // Assert
+  expect(game.GameField).toStrictEqual([
+    [0,0,0,0,0],
+    [0,0,1,0,0],
+    [0,0,1,0,0],
+    [0,0,1,0,0],
+    [0,0,1,0,0],
+  ]);
+});
