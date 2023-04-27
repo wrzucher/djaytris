@@ -168,6 +168,7 @@ test('Object does not go down beyond the edge', () => {
     [2,2,2,0,0],
   ]);
 });
+
 test('If there is one full line, this line should disappear ', () => {
   // Arrange
   const gameField = [
@@ -175,27 +176,22 @@ test('If there is one full line, this line should disappear ', () => {
     [0,0,0,0,0],
     [0,0,0,0,0],
     [0,0,0,0,0],
-    [0,0,0,0,0],
+    [0,0,2,2,2],
   ];
-  const player_y = 3; // Player almost on the ground
-  const game = new Game(gameField, GameBlockType.LLeft, 0, player_y);
+  const player_y = 2; // Player almost on the ground
+  const game = new Game(gameField, GameBlockType.Square, 0, player_y);
   game.Initialize();
-  game.SetNextObject(GameBlockType.Line);
-  game.MoveDown();
-  game.MoveRight();
-  game.MoveDown();
-  game.MoveDown();
-  
+  game.Tic();
+  game.SetNextObject(GameBlockType.Square)
   // Act
-  game.SetNextObject(GameBlockType.Square);
-  game.MoveDown();
+  game.Tic();
 
   // Assert
   expect(game.GameField).toStrictEqual([
-    [0,1,1,0,0],
-    [0,1,1,0,0],
+    [1,1,0,0,0],
+    [1,1,0,0,0],
     [0,0,0,0,0],
     [0,0,0,0,0],
-    [2,2,2,0,0],
+    [2,2,0,0,0],
   ]);
 });
