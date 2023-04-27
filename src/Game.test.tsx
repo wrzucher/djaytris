@@ -89,3 +89,113 @@ test('We can reverse object', () => {
     [0,0,1,0,0],
   ]);
 });
+
+test('Object does not move right beyond the edge', () => {
+  // Arrange
+  const gameField = [
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+  ];
+  const player_y = 1; // Player almost on the ground
+  const game = new Game(gameField, GameBlockType.Line, 2, player_y);
+  game.Initialize();
+
+  // Act
+  game.MoveRight();
+
+  // Assert
+  expect(game.GameField).toStrictEqual([
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,1,1,1,1],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+  ]);
+});
+
+test('Object does not move left beyond the edge', () => {
+  // Arrange
+  const gameField = [
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+  ];
+  const player_y = 0; // Player almost on the ground
+  const game = new Game(gameField, GameBlockType.Square, 0, player_y);
+  game.Initialize();
+
+  // Act
+  game.MoveLeft();
+
+  // Assert
+  expect(game.GameField).toStrictEqual([
+    [1,1,0,0,0],
+    [1,1,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+  ]);
+});
+
+test('Object does not go down beyond the edge', () => {
+  // Arrange
+  const gameField = [
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+  ];
+  const player_y = 3; // Player almost on the ground
+  const game = new Game(gameField, GameBlockType.LLeft, 0, player_y);
+  game.Initialize();
+  game.SetNextObject(GameBlockType.LLeft)
+
+  // Act
+  game.MoveDown();
+
+  // Assert
+  expect(game.GameField).toStrictEqual([
+    [1,0,0,0,0],
+    [1,1,1,0,0],
+    [0,0,0,0,0],
+    [2,0,0,0,0],
+    [2,2,2,0,0],
+  ]);
+});
+test('If there is one full line, this line should disappear ', () => {
+  // Arrange
+  const gameField = [
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+  ];
+  const player_y = 3; // Player almost on the ground
+  const game = new Game(gameField, GameBlockType.LLeft, 0, player_y);
+  game.Initialize();
+  game.SetNextObject(GameBlockType.Line);
+  game.MoveDown();
+  game.MoveRight();
+  game.MoveDown();
+  game.MoveDown();
+  
+  // Act
+  game.SetNextObject(GameBlockType.Square);
+  game.MoveDown();
+
+  // Assert
+  expect(game.GameField).toStrictEqual([
+    [0,1,1,0,0],
+    [0,1,1,0,0],
+    [0,0,0,0,0],
+    [0,0,0,0,0],
+    [2,2,2,0,0],
+  ]);
+});
